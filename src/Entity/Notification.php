@@ -88,4 +88,47 @@ class Notification
 
         return $this;
     }
+
+    public function getStartString()
+    {
+        return $this->start->format('Y-m-d H:i:s');
+    }
+
+    public function getFinishString()
+    {
+        return isset($this->finish) ? $this->finish->format('Y-m-d H:i:s') : null;
+    }
+
+    public function deactivate(): void
+    {
+        $this->finish = $this->now();
+    }
+
+    public function activate(): void
+    {
+        $this->finish = null;
+        $this->start = $this->now();
+    }
+
+    public function isActive(): bool
+    {
+        $now = $this->now();
+
+        if ($now < $this->start) {
+            return false;
+        }
+
+        return ! isset($this->finish) || $this->finish > $now;
+    }
+
+    public function isPending(): bool
+    {
+        return $this->start > $this->now();
+    }
+
+    private function now(): \DateTime
+    {
+        return new \DateTime('now', new \DateTimeZone('America/New_York '));
+    }
+
 }

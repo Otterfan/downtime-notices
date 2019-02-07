@@ -1,1 +1,25 @@
 @import "~bootstrap/scss/bootstrap";
+@import "notifications";
+
+.action-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+
+    font-size: .9em;
+
+    button {
+      border: none;
+      padding: 0;
+      background: none;
+      color: $blue;
+      cursor: pointer;
+
+      &.text-muted {
+        cursor: initial;
+      }
+    }
+  }
+}

@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 /**
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
  * @method Notification|null findOneBy(array $criteria, array $orderBy = null)
- * @method Notification[]    findAll()
  * @method Notification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class NotificationRepository extends ServiceEntityRepository
@@ -19,32 +18,33 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
-    // /**
-    //  * @return Notification[] Returns an array of Notification objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Notification
+    /**
+     * @return Notification[]
+     * @throws \Exception
+     */
+    public function findActiveNotifications(): array
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $dql = /** @lang DQL */
+            <<< DQL
+SELECT n FROM App\Entity\Notification n
+WHERE n.start < :now
+AND  (n.finish IS NULL OR n.finish > :now)
+ORDER BY n.start ASC 
+DQL;
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $now = new \DateTime('now', new \DateTimeZone('America/New_York'));
+        $query->setParameter('now', $now);
+        return $query->getResult();
+
     }
-    */
+
+    /**
+     * @return Notification[]
+     */
+    public function findAll(): array
+    {
+        return $this->findBy([], ['start' => 'DESC']);
+    }
 }

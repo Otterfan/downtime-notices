@@ -55,7 +55,7 @@ class UserController extends AbstractController
      */
     public function edit($uid, Request $request)
     {
-        $user = $this->findUserById($uid);
+        $user = $this->findUserByUid($uid);
 
         if (!$user) {
             return $this->redirectWithFlash('user_create', "Could not find user $uid", 'warning');
@@ -76,7 +76,7 @@ class UserController extends AbstractController
      */
     public function delete(EntityManagerInterface $em, $uid, Request $request): Response
     {
-        $user = $this->findUserById($uid);
+        $user = $this->findUserByUid($uid);
 
         if (!$user) {
             return $this->redirectWithFlash('user_list', "Could not find $uid", 'warning');
@@ -108,7 +108,7 @@ class UserController extends AbstractController
      * @param $uid
      * @return User
      */
-    private function findUserById(string $uid): User
+    private function findUserByUid(string $uid): User
     {
         $user = $this->getDoctrine()
             ->getRepository(User::class)
