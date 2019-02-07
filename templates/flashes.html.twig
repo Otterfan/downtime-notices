@@ -1,0 +1,8 @@
+{% for message in app.flashes('success') %}
+    {% include 'flash.html.twig' with {'message': message, 'flash_class': 'success' } %}
+{% endfor %}
+
+{% for message in app.flashes('warning') %}
+    {% include 'flash.html.twig' with {'message': message, 'flash_class': 'warning' } %}
+{% endfor %}
+

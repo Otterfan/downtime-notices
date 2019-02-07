@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello NotificationController!{% endblock %}
+
+{% block stylesheets %}
+    <style>body {background-color: orange; }</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ '/Users/benjaminflorin/PhpstormProjects/symfony-notify/src/Controller/NotificationController.php'|file_link(0) }}">src/Controller/NotificationController.php</a></code></li>
+        <li>Your template at <code><a href="{{ '/Users/benjaminflorin/PhpstormProjects/symfony-notify/templates/notification/index.html.twig'|file_link(0) }}">templates/notification/index.html.twig</a></code></li>
+    </ul>
+</div>
+{% endblock %}

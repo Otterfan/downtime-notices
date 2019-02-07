@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Show user
+{% endblock %}
+
+{% block body %}
+    {% form_theme user_form 'bootstrap_4_layout.html.twig' %}
+
+    {{ form_start(user_form) }}
+    {{ form_widget(user_form) }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {{ form_end(user_form) }}
+{% endblock %}
+
