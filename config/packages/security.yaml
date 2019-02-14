@@ -1,15 +1,27 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: uid
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            anonymous: ~
+            form_login_ldap:
+                login_path: login
+                check_path: login
+                csrf_token_generator: security.csrf.token_manager
+                service: Symfony\Component\Ldap\Ldap
+                dn_string: 'uid={username},ou=people,dc=bc,dc=edu'
+            logout:
+                path:   app_logout
 
-            # activate different ways to authenticate
+          # activate different ways to authenticate
 
             # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
@@ -21,4 +33,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_USER }

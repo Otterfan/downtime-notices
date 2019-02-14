@@ -14,6 +14,7 @@
         "symfony/flex": "^1.1",
         "symfony/form": "4.2.*",
         "symfony/framework-bundle": "4.2.*",
+        "symfony/ldap": "4.2.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "^1.0",
         "symfony/process": "4.2.*",
@@ -25,7 +26,8 @@
         "symfony/validator": "4.2.*",
         "symfony/web-link": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.1",
-        "symfony/yaml": "4.2.*"
+        "symfony/yaml": "4.2.*",
+      "ext-ldap": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

@@ -77,18 +77,6 @@ class Notification
         return $this;
     }
 
-    public function getPoster(): ?User
-    {
-        return $this->poster;
-    }
-
-    public function setPoster(?User $poster): self
-    {
-        $this->poster = $poster;
-
-        return $this;
-    }
-
     public function getStartString()
     {
         return $this->start->format('Y-m-d H:i:s');
@@ -129,6 +117,18 @@ class Notification
     private function now(): \DateTime
     {
         return new \DateTime('now', new \DateTimeZone('America/New_York '));
+    }
+
+    public function getPoster(): ?User
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(?User $poster): self
+    {
+        $this->poster = $poster;
+
+        return $this;
     }
 
 }
