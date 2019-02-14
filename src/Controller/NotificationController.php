@@ -6,6 +6,7 @@ use App\Entity\Notification;
 use App\Entity\User;
 use App\Form\NotificationType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,10 +19,12 @@ class NotificationController extends AbstractController
     /**
      * @Route("/notification", name="notification_list")
      */
-    public function list()
+    public function list(PaginatorInterface $paginator, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $notifications = $em->getRepository(Notification::class)->findAll();
+        $query = $em->getRepository(Notification::class)->findAllQuery();
+
+        $notifications = $paginator->paginate($query, $request->query->getInt('page', 1));
         return $this->render('notification/list.html.twig', ['notifications' => $notifications]);
     }
 

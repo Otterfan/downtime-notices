@@ -13,7 +13,7 @@
                 <thead>
                 <tr>
                     <th>Message</th>
-                    <th>Start</th>
+                    <th>{{ knp_pagination_sortable(notifications, 'Start', 'n.start') }}</th>
                     <th>End</th>
                     <th>Poster</th>
                     <th>Actions</th>
@@ -33,6 +33,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="navigation">
+                {{ knp_pagination_render(notifications) }}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+<a{% for attr, value  in options %} {{ attr }}="{{ value }}"{% endfor %} style="color: #000
+;">
+<span class="pull-right">
+        {% if app.request.get('sort') == key %}
+            {% if app.request.get('direction') == 'desc' %}
+                <svg version="1.1" class="sort-arrow" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 120 120" enable-background="new 0 0 120 120" xml:space="preserve"><polygon points="0.233,106.52 60,3 119.768,106.52 "></polygon></svg>
+            {% else %}
+                <svg class="sort-arrow" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M0.233,3l59.767,103.52l59.768,-103.52l-119.535,0Z" style="fill-rule:nonzero;"></path></svg>
+            {% endif %}
+        {% else %}
+            <i class="glyphicon glyphicon-sort" style="color: #d2d6de;"></i>
+        {% endif %}
+    </span>
+{{ title }}
+</a>

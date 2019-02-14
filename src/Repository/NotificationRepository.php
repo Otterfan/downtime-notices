@@ -47,4 +47,14 @@ DQL;
     {
         return $this->findBy([], ['start' => 'DESC']);
     }
+
+    public function findAllQuery()
+    {
+        $dql = /** @lang DQL */
+            <<< DQL
+SELECT n FROM App\Entity\Notification n
+ORDER BY n.start DESC 
+DQL;
+        return $this->getEntityManager()->createQuery($dql);
+    }
 }
