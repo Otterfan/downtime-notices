@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Notification;
+use App\Entity\NotificationView;
 use App\Entity\User;
 use App\Form\NotificationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +27,32 @@ class NotificationController extends AbstractController
 
         $notifications = $paginator->paginate($query, $request->query->getInt('page', 1));
         return $this->render('notification/list.html.twig', ['notifications' => $notifications]);
+    }
+
+    /**
+     * @Route("/notification/active", name="notification_active_list")
+     */
+    public function active(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $notes = $em->getRepository(Notification::class)->findActiveNotifications();
+
+        $response = [
+            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York '))
+        ];
+
+        $response['notes'] = array_map(
+            function (Notification $note) use ($em) {
+                $view = new NotificationView();
+                $view->setNotification($note);
+                $em->persist($view);
+                return $note->publicView();
+            },
+            $notes
+        );
+        $em->flush();
+
+        return $this->json($response);
     }
 
     /**
@@ -156,8 +183,6 @@ class NotificationController extends AbstractController
     private function processForm(FormInterface $form, string $success_verb): RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
-
-        $user = $this->currentUser();
 
         $notification = $form->getData();
         $notification->setPoster($this->currentUser());

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class Notification
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="notifications")
      */
     private $poster;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\NotificationView", mappedBy="notification", orphanRemoval=true)
+     */
+    private $views;
+
+    public function __construct()
+    {
+        $this->views = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,7 +118,7 @@ class Notification
             return false;
         }
 
-        return ! isset($this->finish) || $this->finish > $now;
+        return !isset($this->finish) || $this->finish > $now;
     }
 
     public function isPending(): bool
@@ -127,6 +139,46 @@ class Notification
     public function setPoster(?User $poster): self
     {
         $this->poster = $poster;
+
+        return $this;
+    }
+
+    public function publicView()
+    {
+        return [
+            'id'     => $this->id,
+            'text'   => $this->text,
+            'finish' => $this->finish
+        ];
+    }
+
+    /**
+     * @return Collection|NotificationView[]
+     */
+    public function getViews(): Collection
+    {
+        return $this->views;
+    }
+
+    public function addView(NotificationView $view): self
+    {
+        if (!$this->views->contains($view)) {
+            $this->views[] = $view;
+            $view->setNotification($this);
+        }
+
+        return $this;
+    }
+
+    public function removeView(NotificationView $view): self
+    {
+        if ($this->views->contains($view)) {
+            $this->views->removeElement($view);
+            // set the owning side to null (unless already changed)
+            if ($view->getNotification() === $this) {
+                $view->setNotification(null);
+            }
+        }
 
         return $this;
     }
