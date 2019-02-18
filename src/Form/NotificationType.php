@@ -19,9 +19,26 @@ class NotificationType extends AbstractType
             ->add(
                 'start',
                 DateTimeType::class,
-                ['label' => 'Start']
+                [
+                    'label'       => 'Start',
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    'attr' => [
+                        'class' => 'datetime-picker',
+                        'data-min-date' => $now->format('Y-m-d'),
+                        'data-min-time' => $now->format('G:i')],
+                ]
             )
-            ->add('finish', null, ['label' => 'End']);
+            ->add(
+                'finish',
+                null,
+                [
+                    'label'       => 'End',
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    'attr' => [ 'class' => 'datetime-picker']
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

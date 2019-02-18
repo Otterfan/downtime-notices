@@ -9,7 +9,7 @@
                 <input type="hidden" name="_method" value="PUT">
             </form>
         {% elseif notification.isPending %}
-            <form action="{{ path('activate',{'id':notification.id}) }}"
+            <form action="{{ path('notification_activate',{'id':notification.id}) }}"
                   method="POST"
                   class="activate-link"
             >
@@ -27,7 +27,7 @@
         {% endif %}
     </li>
     <li>
-        <a href="{{ path('notification_copy', {'id':notification.id}) }}">Copy</a>
+        <a href="{{ path('notification_copy', {'id':notification.id}) }}">Edit and repost</a>
     </li>
     {% if notification.isPending %}
         <li>

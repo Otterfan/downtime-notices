@@ -13,3 +13,7 @@
     {{ form_end(note_form) }}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('datetime') }}
+{% endblock %}
