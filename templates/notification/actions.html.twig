@@ -26,12 +26,18 @@
             </form>
         {% endif %}
     </li>
-    <li>
-        <a href="{{ path('notification_copy', {'id':notification.id}) }}">Edit and repost</a>
-    </li>
     {% if notification.isPending %}
         <li>
-            <form action="{{ path('notification_deactivate',{'id':notification.id}) }}" method="POST">
+            <a href="{{ path('notification_edit', {'id':notification.id}) }}">Edit</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{{ path('notification_copy', {'id':notification.id}) }}">Repost</a>
+        </li>
+    {% endif %}
+    {% if notification.isPending %}
+        <li>
+            <form action="{{ path('notification_delete',{'id':notification.id}) }}" method="POST">
                 <button>Delete</button>
                 <input type="hidden" name="_method" value="PUT">
             </form>

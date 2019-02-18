@@ -20,36 +20,31 @@ class NotificationController extends AbstractController
     /**
      * @Route("/notification", name="notification_list")
      */
-    public function list(PaginatorInterface $paginator, Request $request)
+    public function list(EntityManagerInterface $em, PaginatorInterface $paginator, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository(Notification::class)->findAllQuery();
-
-        $notifications = $paginator->paginate($query, $request->query->getInt('page', 1));
-        return $this->render('notification/list.html.twig', ['notifications' => $notifications]);
+        $notes = $paginator->paginate($query, $request->query->getInt('page', 1));
+        return $this->render('notification/list.html.twig', ['notifications' => $notes]);
     }
 
     /**
      * @Route("/notification/active", name="notification_active_list")
      */
-    public function active(Request $request)
+    public function active(EntityManagerInterface $em, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $notes = $em->getRepository(Notification::class)->findActiveNotifications();
 
         $response = [
-            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York '))
+            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
+            'notes'    => []
         ];
 
-        $response['notes'] = array_map(
-            function (Notification $note) use ($em) {
-                $view = new NotificationView();
-                $view->setNotification($note);
-                $em->persist($view);
-                return $note->publicView();
-            },
-            $notes
-        );
+        foreach ($notes as $note) {
+            $view = new NotificationView();
+            $view->setNotification($note);
+            $em->persist($view);
+            $response['notes'][] = $note->publicView();
+        }
         $em->flush();
 
         return $this->json($response);
@@ -64,16 +59,12 @@ class NotificationController extends AbstractController
         $blank_note->activate();
         $form = $this->createForm(NotificationType::class, $blank_note);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processForm($form, 'created');
         }
 
-        return $this->render(
-            'notification/new.html.twig',
-            [
-                'note_form' => $form->createView()
-            ]
-        );
+        return $this->renderEditForm($form, 'Create notification');
     }
 
     /**
@@ -81,20 +72,20 @@ class NotificationController extends AbstractController
      */
     public function edit(EntityManagerInterface $em, string $id, Request $request)
     {
-        $notification = $em->find(Notification::class, $id);
+        $note = $em->find(Notification::class, $id);
 
-        if (!$notification) {
+        if (!$note) {
             return $this->redirectWithFlash('notification_create', "Could not find notification $id", 'warning');
         }
 
-        $form = $this->createForm(NotificationType::class, $notification);
+        $form = $this->createForm(NotificationType::class, $note);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processForm($form, 'edited');
         }
 
-        return $this->render('notification/edit.html.twig', ['note_form' => $form->createView()]);
+        return $this->renderEditForm($form, 'Edit notification');
     }
 
     /**
@@ -102,17 +93,33 @@ class NotificationController extends AbstractController
      */
     public function deactivate(EntityManagerInterface $em, $id, Request $request): Response
     {
-        $notification = $em->find(Notification::class, $id);
+        $note = $em->find(Notification::class, $id);
 
-        if (!$notification) {
+        if (!$note) {
             return $this->redirectWithFlash('notification_list', "Could not find $uid", 'warning');
         }
 
-        $notification->deactivate();
-        $em->persist($notification);
-        $em->flush();
+        $note->deactivate();
+        $this->saveNote($note, $em);
 
         return $this->redirectWithFlash('notification_list', 'Deactivated notification');
+    }
+
+    /**
+     * @Route("/notification/{id}/delete", name="notification_delete", methods={"PUT"})
+     */
+    public function delete(EntityManagerInterface $em, $id, Request $request): Response
+    {
+        $note = $em->find(Notification::class, $id);
+
+        if (!$note) {
+            return $this->redirectWithFlash('notification_list', "Could not find $uid", 'warning');
+        }
+
+        $em->remove($note);
+        $em->flush();
+
+        return $this->redirectWithFlash('notification_list', 'Deleted notification');
     }
 
     /**
@@ -120,15 +127,14 @@ class NotificationController extends AbstractController
      */
     public function activate(EntityManagerInterface $em, $id, Request $request): Response
     {
-        $notification = $em->find(Notification::class, $id);
+        $note = $em->find(Notification::class, $id);
 
-        if (!$notification) {
+        if (!$note) {
             return $this->redirectWithFlash('notification_list', 'Could not find notification', 'warning');
         }
 
-        $notification->activate();
-        $em->persist($notification);
-        $em->flush();
+        $note->activate();
+        $this->saveNote($note, $em);
 
         return $this->redirectWithFlash('notification_list', 'Activated notification');
     }
@@ -147,10 +153,9 @@ class NotificationController extends AbstractController
         $new_note = new Notification();
         $new_note->setText($old_note->getText());
         $new_note->setPoster($this->currentUser());
-        $new_note->activate();
 
-        $em->persist($new_note);
-        $em->flush();
+        $new_note->activate();
+        $this->saveNote($new_note, $em);
 
         return $this->redirectWithFlash('notification_list', 'Reactivated notification');
     }
@@ -176,18 +181,16 @@ class NotificationController extends AbstractController
         $form->get('text')->setData($old_note->getText());
         $form->get('start')->setData(new \DateTime('now', new \DateTimeZone('America/New_York')));
 
-
-        return $this->render('notification/edit.html.twig', ['note_form' => $form->createView()]);
+        return $this->renderEditForm($form, 'Create notification');
     }
 
     private function processForm(FormInterface $form, string $success_verb): RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
 
-        $notification = $form->getData();
-        $notification->setPoster($this->currentUser());
-        $em->persist($notification);
-        $em->flush();
+        $note = $form->getData();
+        $note->setPoster($this->currentUser());
+        $this->saveNote($note, $em);
 
         $message = "Notification $success_verb";
         return $this->redirectWithFlash('notification_list', $message);
@@ -213,5 +216,31 @@ class NotificationController extends AbstractController
         $user = $this->getDoctrine()->getRepository(User::class)
             ->findOneBy(['uid' => 'florinb']);
         return $user;
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param string        $title
+     * @return Response
+     */
+    private function renderEditForm(FormInterface $form, string $title = 'Edit notification'): Response
+    {
+        return $this->render(
+            'notification/form.html.twig',
+            [
+                'note_form' => $form->createView(),
+                'title'     => $title
+            ]
+        );
+    }
+
+    /**
+     * @param Notification           $new_note
+     * @param EntityManagerInterface $em
+     */
+    private function saveNote(Notification $new_note, EntityManagerInterface $em): void
+    {
+        $em->persist($new_note);
+        $em->flush();
     }
 }
