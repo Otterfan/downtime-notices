@@ -143,13 +143,32 @@ class Notification
         return $this;
     }
 
-    public function publicView()
+    public function publicView(): array
     {
         return [
-            'id'     => $this->id,
-            'text'   => $this->text,
-            'finish' => $this->finish
+            'id'    => $this->id,
+            'text'  => $this->text,
+            'start' => $this->start,
+            'end'   => $this->finish
         ];
+    }
+
+    public function calendarFeed(string $route_base): array
+    {
+        $base = $this->publicView();
+
+        $base['title'] = $base['text'];
+        unset($base['text']);
+
+        $base['url'] = "$route_base/{$this->id}";
+        $base['color'] = 'yellow';
+
+        if ($base['end'] === null) {
+            $base['end'] = clone $base['start'];
+            $base['end']->add(new \DateInterval('P1D'));
+        }
+
+        return $base;
     }
 
     /**

@@ -1,5 +1,29 @@
 @import "~bootstrap/scss/bootstrap";
 @import "notifications";
+@import "home";
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+main {
+  min-height: 92vh;
+  padding-top: 1em;
+  background-color: #e2e6ea;
+
+  .pane {
+    background-color: white;
+    border-radius: 4px;
+    margin-bottom: 1em;
+    padding: 1em 2em;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 1em;
+    }
+  }
+}
 
 .action-list {
   list-style: none;

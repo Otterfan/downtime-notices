@@ -30,7 +30,7 @@ class NotificationController extends AbstractController
     /**
      * @Route("/notification/active", name="notification_active_list")
      */
-    public function active(EntityManagerInterface $em, Request $request)
+    public function listActive(EntityManagerInterface $em, Request $request)
     {
         $notes = $em->getRepository(Notification::class)->findActiveNotifications();
 
@@ -46,6 +46,41 @@ class NotificationController extends AbstractController
             $response['notes'][] = $note->publicView();
         }
         $em->flush();
+
+        return $this->json($response);
+    }
+
+    /**
+     * @Route("/notification/pending", name="notification_pending_list")
+     */
+    public function listPending(EntityManagerInterface $em, Request $request)
+    {
+        $notes = $em->getRepository(Notification::class)->findActiveNotifications();
+
+        $response = [
+            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
+            'notes'    => []
+        ];
+
+        foreach ($notes as $note) {
+            $response['notes'][] = $note->publicView();
+        }
+
+        return $this->json($response);
+    }
+
+
+    /**
+     * @Route("/notification/feed", name="notification_feed_list")
+     */
+    public function calendarFeed(EntityManagerInterface $em) {
+        $notes = $em->getRepository(Notification::class)->findAll();
+
+        $response = [];
+        foreach ($notes as $note) {
+            $base =  $this->generateUrl('notification_list');
+            $response[] = $note->calendarFeed($base);
+        }
 
         return $this->json($response);
     }
@@ -101,6 +136,11 @@ class NotificationController extends AbstractController
 
         $note->deactivate();
         $this->saveNote($note, $em);
+
+        $url_parts = parse_url($request->headers->get('Referer'));
+        if ($url_parts && $url_parts['path'] === $this->generateUrl('home')) {
+            return $this->redirectWithFlash('home', 'Deactivated notification');
+        }
 
         return $this->redirectWithFlash('notification_list', 'Deactivated notification');
     }

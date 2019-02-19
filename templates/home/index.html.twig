@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body_class %}homepage{% endblock %}
+
+{% block body %}
+
+    <div class="row top-row">
+        {# List of active notifications #}
+        <div class="pane-holder col-md-10">
+            <div class="pane active-list-pane">
+                {{ include('home/active-list.html.twig', {'notes': notes}) }}
+            </div>
+        </div>
+
+        {# Actions pane #}
+        <div class="pane-holder col-md-2">
+            <div class="pane actions-pane">
+                Content
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row row-bottom">
+        <div class="pane-holder col-md-6">
+
+            {# Calendar view pane #}
+            <div class="pane calendar-pane">
+                {{ include('home/calendar.html.twig') }}
+            </div>
+        </div>
+        <div class="pane-holder col-md-6">
+
+            {# System status pane #}
+            <div class="pane calendar-pane">
+                <h2>System status</h2>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

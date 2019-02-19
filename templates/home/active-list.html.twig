@@ -1,0 +1,25 @@
+<div class="row home-note-list">
+    <h2 class="col-md-12">Active notifications</h2>
+    {% if not notes %}
+        <div>There are no active notifications.</div>
+    {% endif %}
+
+    {% for note in notes %}
+        <div class="note-example">
+            <div class="alert alert-warning">
+                <div class="text">{{ note.text }}
+                </div>
+            </div>
+            <div class="note-description">
+                Posted <span class="datetime">{{ note.startString }}</span>
+                by <span class="user">{{ note.poster.uid }}</span>.
+                {% if note.finishString %}
+                    Ending <span class="datetime">{{ note.finishString }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="notification-actions">
+            {{ include('notification/actions.html.twig', {'notification':note}) }}
+        </div>
+    {% endfor %}
+</div>

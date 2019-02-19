@@ -9,4 +9,16 @@
 require('../css/app.scss');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// const $ = require('jquery');
+const $ = require('jquery');
+const moment = require('moment');
+
+import 'fullcalendar';
+
+$('.homepage #calendar').fullCalendar({
+    themeSystem: 'bootstrap4',
+    defaultView: 'listWeek',
+    noEventsMessage: 'No notifications scheduled',
+    eventSources: [
+        {url: '/notification/feed'}
+    ]
+});

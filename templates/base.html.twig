@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css">
     {% block stylesheets %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}sub_page{% endblock %}">
 {{ include('top-menu.html.twig') }}
 <div class="container-fluid">
     <div class="row">
         {{ include('left-menu.html.twig') }}
 
-        <main class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <main class="col-md-9 col-lg-10">
             <h1>{{ block('title') }}</h1>
 
             {{ include('flashes.html.twig') }}

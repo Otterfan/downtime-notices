@@ -1,0 +1,52 @@
+
+.homepage h1 {
+  display: none;
+}
+
+.homepage {
+
+  height: 100;
+
+  main {
+    .top-row {
+      .pane {
+        height: 300px;
+      }
+    }
+
+      #calendar {
+        font-size: 14px;
+
+        h2 {
+          font-size: $font-size-base;
+          font-weight: 600;
+        }
+      }
+  }
+
+
+  .home-note-list {
+    .note-example {
+      @extend .col-md-10;
+
+      .user {
+        font-style: italic;
+      }
+
+      .note-description {
+        font-size: 14px;
+        font-weight: 200;
+        text-align: right;
+
+        .datetime {
+          font-weight: 600;
+        }
+      }
+    }
+
+    .notification-actions {
+      @extend .col-md-2;
+    }
+  }
+
+}
