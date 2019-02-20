@@ -10,7 +10,7 @@
     <div class="pane-holder col-12">
         <div class="pane">
             <div class="row">
-                <div class="col-12">
+                <div class="col-10">
                     <table class="table notifications-table">
                         <thead>
                         <tr>
@@ -38,6 +38,10 @@
                     <div class="navigation">
                         {{ knp_pagination_render(notifications) }}
                     </div>
+                </div>
+                <div class="col-2">
+                    <a href="{{ path('notification_create') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">New
+                        notification</a>
                 </div>
             </div>
         </div>

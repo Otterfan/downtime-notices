@@ -1,5 +1,9 @@
 <div class="row home-note-list">
-    <h2 class="col-md-12">Active notifications</h2>
+    <h2 class="col-md-4">Active notifications</h2>
+    <div class="new-note-btn-holder">
+        <a href="{{ path('notification_create') }}" class="btn btn-primary active" role="button" aria-pressed="true">New
+            notification</a>
+    </div>
     {% if not notes %}
         <div>There are no active notifications.</div>
     {% endif %}

@@ -14,18 +14,25 @@
       }
     }
 
-      #calendar {
-        font-size: 14px;
+    #calendar {
+      font-size: 14px;
 
-        h2 {
-          font-size: $font-size-base;
-          font-weight: 600;
-        }
+      h2 {
+        font-size: $font-size-base;
+        font-weight: 600;
       }
+    }
   }
 
 
   .home-note-list {
+
+    .new-note-btn-holder {
+      text-align: right;
+      @extend .col-md-6;
+      margin-bottom: 1em;
+    }
+
     .note-example {
       @extend .col-md-10;
 
