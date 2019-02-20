@@ -158,6 +158,8 @@ class Notification
         return [
             'id'    => $this->id,
             'text'  => $this->text,
+            'priority' => $this->getPriority()->getLevel(),
+            'type' => $this->getType()->getName(),
             'start' => $this->start,
             'end'   => $this->finish
         ];

@@ -19,6 +19,6 @@ $('.homepage #calendar').fullCalendar({
     defaultView: 'listWeek',
     noEventsMessage: 'No notifications scheduled',
     eventSources: [
-        {url: '/notification/feed'}
+        {url: '/feed'}
     ]
 });

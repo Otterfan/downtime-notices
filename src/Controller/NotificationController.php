@@ -56,7 +56,7 @@ class NotificationController extends AbstractController
      */
     public function listPending(EntityManagerInterface $em, Request $request)
     {
-        $notes = $em->getRepository(Notification::class)->findActiveNotifications();
+        $notes = $em->getRepository(Notification::class)->findPendingNotifications();
 
         $response = [
             'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
@@ -72,11 +72,11 @@ class NotificationController extends AbstractController
 
 
     /**
-     * @Route("/notification/feed", name="notification_feed_list")
+     * @Route("/feed", name="notification_feed_list")
      */
     public function calendarFeed(EntityManagerInterface $em)
     {
-        $notes = $em->getRepository(Notification::class)->findAll();
+        $notes = $em->getRepository(Notification::class)->findActiveAndPendingNotifications();
 
         $response = [];
         foreach ($notes as $note) {

@@ -62,6 +62,26 @@ DQL;
 
     /**
      * @return Notification[]
+     * @throws \Exception
+     */
+    public function findActiveAndPendingNotifications(): array
+    {
+        $dql = /** @lang DQL */
+            <<< DQL
+SELECT n FROM App\Entity\Notification n
+WHERE (n.finish IS NULL OR n.finish > :now)
+ORDER BY n.start ASC 
+DQL;
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $now = new \DateTime('now', new \DateTimeZone('America/New_York'));
+        $query->setParameter('now', $now);
+        return $query->getResult();
+
+    }
+
+    /**
+     * @return Notification[]
      */
     public function findAll(): array
     {

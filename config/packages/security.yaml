@@ -34,3 +34,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/notification, roles: ROLE_USER }
+        - { path: ^/template, roles: ROLE_USER }
+
+
+
