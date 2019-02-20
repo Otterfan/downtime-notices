@@ -43,6 +43,16 @@ class Notification
      */
     private $views;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Priority", inversedBy="notifications")
+     */
+    private $priority;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\NoteType", inversedBy="notifications")
+     */
+    private $type;
+
     public function __construct()
     {
         $this->views = new ArrayCollection();
@@ -198,6 +208,30 @@ class Notification
                 $view->setNotification(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPriority(): ?Priority
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?Priority $priority): self
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getType(): ?NoteType
+    {
+        return $this->type;
+    }
+
+    public function setType(?NoteType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

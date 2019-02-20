@@ -16,6 +16,8 @@ class NotificationType extends AbstractType
 
         $builder
             ->add('text')
+            ->add('type')
+            ->add('priority')
             ->add(
                 'start',
                 DateTimeType::class,

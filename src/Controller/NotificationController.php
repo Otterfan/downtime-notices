@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Notification;
 use App\Entity\NotificationView;
+use App\Entity\Template;
 use App\Entity\User;
 use App\Form\NotificationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +29,7 @@ class NotificationController extends AbstractController
     }
 
     /**
-     * @Route("/notification/active", name="notification_active_list")
+     * @Route("/active", name="notification_active_list")
      */
     public function listActive(EntityManagerInterface $em, Request $request)
     {
@@ -51,7 +52,7 @@ class NotificationController extends AbstractController
     }
 
     /**
-     * @Route("/notification/pending", name="notification_pending_list")
+     * @Route("/pending", name="notification_pending_list")
      */
     public function listPending(EntityManagerInterface $em, Request $request)
     {
@@ -73,12 +74,13 @@ class NotificationController extends AbstractController
     /**
      * @Route("/notification/feed", name="notification_feed_list")
      */
-    public function calendarFeed(EntityManagerInterface $em) {
+    public function calendarFeed(EntityManagerInterface $em)
+    {
         $notes = $em->getRepository(Notification::class)->findAll();
 
         $response = [];
         foreach ($notes as $note) {
-            $base =  $this->generateUrl('notification_list');
+            $base = $this->generateUrl('notification_list');
             $response[] = $note->calendarFeed($base);
         }
 
@@ -88,9 +90,17 @@ class NotificationController extends AbstractController
     /**
      * @Route("/notification/new", name="notification_create")
      */
-    public function new(Request $request): Response
+    public function new(EntityManagerInterface $em, Request $request): Response
     {
         $blank_note = new Notification();
+
+        if ($request->get('template')) {
+            $template = $em->find(Template::class, $request->get('template'));
+            $blank_note->setText($template->getText());
+            $blank_note->setPriority($template->getPriority());
+            $blank_note->setType($template->getType());
+        }
+
         $blank_note->activate();
         $form = $this->createForm(NotificationType::class, $blank_note);
         $form->handleRequest($request);
