@@ -53,6 +53,11 @@ class Notification
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Application", inversedBy="notifications")
+     */
+    private $application;
+
     public function __construct()
     {
         $this->views = new ArrayCollection();
@@ -156,12 +161,13 @@ class Notification
     public function publicView(): array
     {
         return [
-            'id'    => $this->id,
-            'text'  => $this->text,
-            'priority' => $this->getPriority()->getLevel(),
-            'type' => $this->getType()->getName(),
-            'start' => $this->start,
-            'end'   => $this->finish
+            'id'          => $this->id,
+            'text'        => $this->text,
+            'priority'    => $this->getPriority() ? $this->getPriority()->getName() : null,
+            'type'        => $this->getType() ? $this->getType()->getName() : null,
+            'application' => $this->getApplication() ? $this->getApplication()->getName() : null,
+            'start'       => $this->start,
+            'end'         => $this->finish
         ];
     }
 
@@ -234,6 +240,18 @@ class Notification
     public function setType(?NoteType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getApplication(): ?Application
+    {
+        return $this->application;
+    }
+
+    public function setApplication(?Application $application): self
+    {
+        $this->application = $application;
 
         return $this;
     }

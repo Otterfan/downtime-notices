@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Application;
 use App\Entity\Notification;
 use App\UptimeRobot\Client;
+use App\UptimeRobot\Monitor;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,10 +24,10 @@ class HomeController extends AbstractController
 
         $error = false;
 
-        $monitors = [];
+        $apps = [];
 
         try {
-            $monitors = $this->queryUptimeRobot($em);
+            $apps = $this->queryUptimeRobot($em);
         } catch (\Exception $e) {
             $logger->error($e);
             $error = "Couldn't load Uptime Robot results.";
@@ -35,7 +36,7 @@ class HomeController extends AbstractController
         return $this->render(
             'home/index.html.twig',
             [
-                'monitors'        => $monitors,
+                'apps'            => $apps,
                 'notes'           => $notes,
                 'controller_name' => 'HomeController',
                 'error_message'   => $error
@@ -53,12 +54,22 @@ class HomeController extends AbstractController
 
         $apps_to_check = [];
         foreach ($apps as $app) {
-            $apps_to_check[] = $app->getUptimeRobotCode();
+            $apps_to_check[$app->getUptimeRobotCode()] = $app;
         }
 
         $api_key = getenv('UPTIME_ROBOT_API_KEY');
 
         $ur_client = new Client();
-        return $ur_client->fetch($api_key, $apps_to_check);
+        $monitors = $ur_client->fetch($api_key, array_keys($apps_to_check));
+
+        return array_map(
+            function (Monitor $monitor) use ($apps_to_check) {
+                return [
+                    'monitor' => $monitor,
+                    'app'  => $apps_to_check[$monitor->id]
+                ];
+            },
+            $monitors
+        );
     }
 }

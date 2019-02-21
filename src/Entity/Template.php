@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
+use App\Form\ApplicationType;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,9 +35,9 @@ class Template
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Application", mappedBy="template")
+     * @ORM\OneToOne(targetEntity="App\Entity\Application", mappedBy="template", cascade={"persist", "remove"})
      */
-    private $applications;
+    private $application;
 
     public function __construct()
     {
@@ -85,39 +85,26 @@ class Template
         return $this;
     }
 
-    /**
-     * @return Collection|Application[]
-     */
-    public function getApplications(): Collection
-    {
-        return $this->applications;
-    }
-
-    public function addApplication(Application $application): self
-    {
-        if (!$this->applications->contains($application)) {
-            $this->applications[] = $application;
-            $application->setTemplate($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApplication(Application $application): self
-    {
-        if ($this->applications->contains($application)) {
-            $this->applications->removeElement($application);
-            // set the owning side to null (unless already changed)
-            if ($application->getTemplate() === $this) {
-                $application->setTemplate(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function __toString()
     {
         return $this->text;
+    }
+
+    public function getApplication(): ?Application
+    {
+        return $this->application;
+    }
+
+    public function setApplication(?Application $application): self
+    {
+        $this->application = $application;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newTemplate = $application === null ? null : $this;
+        if ($newTemplate !== $application->getTemplate()) {
+            $application->setTemplate($newTemplate);
+        }
+
+        return $this;
     }
 }

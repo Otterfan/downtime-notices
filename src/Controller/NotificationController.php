@@ -99,6 +99,7 @@ class NotificationController extends AbstractController
             $blank_note->setText($template->getText());
             $blank_note->setPriority($template->getPriority());
             $blank_note->setType($template->getType());
+            $blank_note->setApplication($template->getApplication());
         }
 
         $blank_note->activate();
