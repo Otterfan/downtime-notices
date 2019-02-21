@@ -27,7 +27,9 @@
         "symfony/web-link": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.1",
         "symfony/yaml": "4.2.*",
-      "ext-ldap": "*"
+      "ext-ldap": "*",
+      "ext-curl": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

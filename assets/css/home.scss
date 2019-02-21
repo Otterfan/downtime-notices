@@ -22,6 +22,26 @@
         font-weight: 600;
       }
     }
+
+    .status-pane {
+      tr.down {
+        @extend .table-warning;
+      }
+
+      tr.seems-down {
+        @extend  .table-warning;
+      }
+
+      tr.paused {
+        @extend .table-secondary;
+      }
+
+      tr.up {
+        .fa-chevron-circle-up {
+          color: $success;
+        }
+      }
+    }
   }
 
 
