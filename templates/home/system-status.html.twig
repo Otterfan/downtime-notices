@@ -1,0 +1,30 @@
+{% if error_message %}
+    <div class="status-pane-error">{{ error_message }}</div>
+{% else %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Application</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for monitor in monitors %}
+            <tr class="{{ monitor.status_code }}">
+                <td>{{ monitor.name }}</td>
+                <td>{{ monitor.status_text }}</td>
+                <td>{% if monitor.status_code == 'up' %}
+                        <i class="fas fa-chevron-circle-up"></i>
+                    {% elseif monitor.status_code == 'paused' %}
+                        <i class="fas fa-pause"></i>
+                    {% else %}
+                        <i class="fas fa-exclamation-triangle"></i>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endif %}

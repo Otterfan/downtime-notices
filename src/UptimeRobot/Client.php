@@ -2,6 +2,8 @@
 
 namespace App\UptimeRobot;
 
+use mysql_xdevapi\Exception;
+
 class Client
 {
     private $status_name_map = [
@@ -33,11 +35,15 @@ class Client
      */
     public function fetch(string $api_key, array $monitors): array
     {
+        if (count($monitors) === 0) {
+            return [];
+        }
+
         $curl = curl_init();
 
+        $fields = ["api_key=$api_key"];
         $codes = implode('-', $monitors);
-
-        $fields_string = "api_key=$api_key&monitors=$codes";
+        $fields[] = "monitors=$codes";
 
         curl_setopt_array(
             $curl,
@@ -49,8 +55,8 @@ class Client
                 CURLOPT_TIMEOUT        => 30,
                 CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST  => 'POST',
-                CURLOPT_POST           => 2,
-                CURLOPT_POSTFIELDS     => $fields_string
+                CURLOPT_POST           => count($fields),
+                CURLOPT_POSTFIELDS     => implode('&', $fields)
             )
         );
 
@@ -66,8 +72,10 @@ class Client
         $ur_response = json_decode($response);
 
         $monitors = [];
-        foreach ($ur_response->monitors as $monitor_json) {
-            $monitors[] = $this->buildMonitor($monitor_json);
+        if (isset($ur_response->monitors)) {
+            foreach ($ur_response->monitors as $monitor_json) {
+                $monitors[] = $this->buildMonitor($monitor_json);
+            }
         }
 
         return $monitors;

@@ -6,6 +6,7 @@ use App\Entity\Application;
 use App\Entity\Notification;
 use App\UptimeRobot\Client;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,13 +15,22 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(EntityManagerInterface $em)
+    public function index(EntityManagerInterface $em, LoggerInterface $logger)
     {
         $repo = $em->getRepository(Notification::class);
 
         $notes = $repo->findActiveNotifications();
 
-        $monitors = $this->queryUptimeRobot($em);
+        $error = false;
+
+        $monitors = [];
+
+        try {
+            $monitors = $this->queryUptimeRobot($em);
+        } catch (\Exception $e) {
+            $logger->error($e);
+            $error = "Couldn't load Uptime Robot results.";
+        }
 
         return $this->render(
             'home/index.html.twig',
@@ -28,6 +38,7 @@ class HomeController extends AbstractController
                 'monitors'        => $monitors,
                 'notes'           => $notes,
                 'controller_name' => 'HomeController',
+                'error_message'   => $error
             ]
         );
     }
