@@ -8,7 +8,8 @@ APP_BASE=/apps/downtime-notices
 
 # The new release
 TODAY=`date +%Y-%m-%d-%H%M%S`
-NEW_RELEASE=${APP_BASE}/releases/${TODAY}
+RELEASES_DIR=${APP_BASE}/releases
+NEW_RELEASE=${RELEASES_DIR}/${TODAY}
 
 # Shared directories
 SHARED_DIR=${APP_BASE}/shared
@@ -39,3 +40,11 @@ php bin/console doctrine:migrations:migrate
 # Replace old version with new version
 unlink ${APP_BASE}/current
 ln -s ${NEW_RELEASE} ${APP_BASE}/current
+
+# Keep the last 3 releases
+if [[ `ls -1 ${RELEASES_DIR} 2>/dev/null | wc -l ` -gt 3 ]];
+then
+	cd ${RELEASES_DIR}
+	echo "Removing $(ls -t | tail -1)"
+	rm -rf "$(ls -t | tail -1)"
+fi
