@@ -3,39 +3,36 @@
 {% block title %}Users{% endblock %}
 
 {% block body %}
-    <div class="pane-holder col-12">
-        <div class="pane">
-            <div class="row">
-                <div class="col-12">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>UID</th>
-                            <th>last</th>
-                            <th>first</th>
-                            <th>email</th>
-                            <th>Delete?</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in users %}
-                            <tr>
-                                <td><a href="{{ path('user_edit',{'uid':user.uid}) }}">{{ user.uid }}</a></td>
-                                <td>{{ user.LastName }}</td>
-                                <td>{{ user.FirstName }}</td>
-                                <td>{{ user.email }}</td>
-                                <td>
-                                    <form action="{{ path('user_delete',{'uid':user.uid}) }}" method="POST">
-                                        <button>&times;</button>
-                                        <input type="hidden" name="_method" value="DELETE">
-                                    </form>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>last</th>
+                    <th>first</th>
+                    <th>email</th>
+                    <th>Delete?</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="{{ path('user_edit',{'uid':user.uid}) }}">{{ user.uid }}</a></td>
+                        <td>{{ user.LastName }}</td>
+                        <td>{{ user.FirstName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <form action="{{ path('user_delete',{'uid':user.uid}) }}" method="POST">
+                                <button>&times;</button>
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

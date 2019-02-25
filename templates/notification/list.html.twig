@@ -7,43 +7,39 @@
 {% endblock %}
 
 {% block body %}
-    <div class="pane-holder col-12">
-        <div class="pane">
-            <div class="row">
-                <div class="col-10">
-                    <table class="table notifications-table">
-                        <thead>
-                        <tr>
-                            <th>Message</th>
-                            <th>{{ knp_pagination_sortable(notifications, 'Start', 'n.start') }}</th>
-                            <th>End</th>
-                            <th>Poster</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for notification in notifications %}
-                            <tr class="{% if notification.isActive %}active{% endif %}">
-                                <td>{{ notification.text }}</td>
-                                <td>{{ notification.startString }}</td>
-                                <td>{{ notification.finishString }}</td>
-                                <td>{{ notification.poster.uid }}</td>
-                                <td class="notification-actions">
-                                    {{ include('notification/actions.html.twig', {'notification':notification}) }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="navigation">
-                        {{ knp_pagination_render(notifications) }}
-                    </div>
-                </div>
-                <div class="col-2">
-                    <a href="{{ path('notification_create') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">New
-                        notification</a>
-                </div>
+    <div class="row">
+        <div class="col-10">
+            <table class="table notifications-table">
+                <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>{{ knp_pagination_sortable(notifications, 'Start', 'n.start') }}</th>
+                    <th>End</th>
+                    <th>Poster</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for notification in notifications %}
+                    <tr class="{% if notification.isActive %}active{% endif %}">
+                        <td>{{ notification.text }}</td>
+                        <td>{{ notification.startString }}</td>
+                        <td>{{ notification.finishString }}</td>
+                        <td>{{ notification.poster.uid }}</td>
+                        <td class="notification-actions">
+                            {{ include('notification/actions.html.twig', {'notification':notification}) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(notifications) }}
             </div>
+        </div>
+        <div class="col-2">
+            <a href="{{ path('notification_create') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">New
+                notification</a>
         </div>
     </div>
 {% endblock %}
