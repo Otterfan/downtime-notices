@@ -16,7 +16,16 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(EntityManagerInterface $em, LoggerInterface $logger)
+    public function index()
+    {
+        return $this->redirectToRoute('dashboard');
+    }
+
+
+    /**
+     * @Route("/dashboard", name="dashboard")
+     */
+    public function dashboard(EntityManagerInterface $em, LoggerInterface $logger)
     {
         $repo = $em->getRepository(Notification::class);
 

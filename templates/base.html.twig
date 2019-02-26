@@ -22,7 +22,7 @@
                 <div class="alert alert-success">{{ message }}</div>
             {% endfor %}
 
-            {% if app.request.pathinfo == '/' %}
+            {% if app.request.pathinfo == '/dashboard' %}
                 {% block dashboard %}{% endblock %}
             {% else %}
                 <div class="pane-holder col-12">
