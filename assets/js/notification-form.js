@@ -26,6 +26,8 @@ function setMinValues() {
 
     if (today === start_date_picker.value) {
         start_time_picker.setAttribute('min', right_now);
+    } else {
+        start_time_picker.removeAttribute('min');
     }
 
     if (start_date_picker.value === end_date_picker.value) {
