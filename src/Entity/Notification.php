@@ -166,8 +166,8 @@ class Notification
             'priority'    => $this->getPriority() ? $this->getPriority()->getName() : null,
             'type'        => $this->getType() ? $this->getType()->getName() : null,
             'application' => $this->getApplication() ? $this->getApplication()->getName() : null,
-            'start'       => $this->start,
-            'end'         => $this->finish
+            'start'       => $this->getStartString(),
+            'end'         => $this->getFinishString()
         ];
     }
 
