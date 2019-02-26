@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Application;
-use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +19,10 @@ class ApplicationType extends AbstractType
             ->add(
                 'automatic',
                 CheckboxType::class,
-                ['label' => 'Post notice on Uptime Robot report?']
+                [
+                    'label'    => 'Post notice on Uptime Robot report?',
+                    'required' => false
+                ]
             );
     }
 

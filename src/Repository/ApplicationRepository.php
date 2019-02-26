@@ -19,6 +19,11 @@ class ApplicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Application::class);
     }
 
+    public function findAll()
+    {
+        return $this->findBy([], ['name' => 'ASC']);
+    }
+
     // /**
     //  * @return Application[] Returns an array of Application objects
     //  */
