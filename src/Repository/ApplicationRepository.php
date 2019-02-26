@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 /**
  * @method Application|null find($id, $lockMode = null, $lockVersion = null)
  * @method Application|null findOneBy(array $criteria, array $orderBy = null)
- * @method Application[]    findAll()
  * @method Application[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ApplicationRepository extends ServiceEntityRepository
@@ -19,7 +18,7 @@ class ApplicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Application::class);
     }
 
-    public function findAll()
+    public function findAll(): array
     {
         return $this->findBy([], ['name' => 'ASC']);
     }
