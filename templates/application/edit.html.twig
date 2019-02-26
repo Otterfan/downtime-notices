@@ -2,6 +2,10 @@
 
 {% block title %}Edit application{% endblock %}
 
+{% block icon %}
+    <i class="fas fa-server"></i>
+{% endblock %}
+
 {% block body %}
     {{ include('application/_form.html.twig', {'button_label': 'Update'}) }}
 

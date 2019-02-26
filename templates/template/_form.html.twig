@@ -1,6 +1,14 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="row">
+    <div class="notices-form-entry">
+        {{ form_start(form) }}
+        {{ form_widget(form, { 'attr': {'class': 'notices-edit-form'} }) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+    </div>
+    <div class="notices-form-instruction">
+        <div class="instructions">
+            <p>A <strong>template</strong></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+// Typography
+$font-family-sans-serif: 'Roboto', sans-serif;
+$font-size-base: 1.2rem;
+
+$font-body: 'Roboto', sans-serif;
+$font-header: 'Roboto Condensed', sans-serif;
+
+$color-blue: #495DB9;
+$color-white: #ffffff;
+$color-gray: #ccc4c4;
+$color-black: #0D1721;
+$color-yellow: #FFCE00;
+$color-green: #007849;
+
+$color-dark: #262228;
+
+$warning: $color-yellow;
+$success: $color-green;
+
+$color-button: $color-blue;
+$color-darkbg: $color-dark;
+
+$color-warning-note: lighten($color-yellow, 25%);

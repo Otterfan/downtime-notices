@@ -1,26 +1,43 @@
+@import "variables";
 @import "~bootstrap/scss/bootstrap";
 @import "notifications";
 @import "home";
 @import "nav";
+@import "forms";
+@import "tables";
 
-* {
-  font-family: "Open Sans", sans-serif;
+body {
+  color: $color-black;
+  font-family: $font-body;
+  font-weight: 300;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: $font-header;
+}
+
+h2, .h2 {
+  font-size: 1.8rem;
+
+  .fas {
+    font-size: 1.4rem;
+    position: relative;
+    top: -2px;
+  }
 }
 
 main {
   min-height: 92vh;
   padding-top: 1em;
-  background-color: #e2e6ea;
+  background-color: $color-gray;
 
   .pane {
-    background-color: white;
-    border-radius: 4px;
+    background-color: $color-white;
+    border-radius: $border-radius;
     margin-bottom: 1em;
     padding: 1em 2em;
 
     h2 {
-      font-size: 20px;
-      font-weight: 600;
       margin-bottom: 1em;
     }
   }
@@ -32,8 +49,6 @@ main {
   margin: 0;
 
   li {
-
-    font-size: .9em;
 
     button {
       border: none;
@@ -51,4 +66,16 @@ main {
 
 .sort-arrow {
   max-width: .75em;
+}
+
+.btn-notices {
+  background-color: lighten($color-button, 5%);
+  color: $color-white;
+  font-weight: 400;
+}
+
+.btn-notices:hover {
+  background-color: darken($color-button, 5%);
+  color: lighten($color-white, 5%);
+  font-weight: 400;
 }

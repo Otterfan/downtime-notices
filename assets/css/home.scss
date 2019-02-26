@@ -21,6 +21,10 @@
         font-size: $font-size-base;
         font-weight: 600;
       }
+
+      .fullcalendar-active-note {
+        background: $color-warning-note;
+      }
     }
 
     .status-pane {
@@ -51,6 +55,10 @@
       text-align: right;
       @extend .col-md-6;
       margin-bottom: 1em;
+    }
+
+    .alert-warning {
+      background-color: $color-warning-note;
     }
 
     .note-example {

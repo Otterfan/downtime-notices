@@ -4,10 +4,14 @@
     Edit user
 {% endblock %}
 
+{% block icon %}
+    <i class="fas fa-users"></i>
+{% endblock %}
+
 {% block body %}
     {% form_theme user_form 'bootstrap_4_layout.html.twig' %}
 
-    {{ form_start(user_form) }}
+    {{ form_start(user_form, { 'attr': {'class': 'notices-edit-form'} }) }}
     {{ form_widget(user_form) }}
     <button type="submit" class="btn btn-primary">Submit</button>
     {{ form_end(user_form) }}

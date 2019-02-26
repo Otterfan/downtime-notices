@@ -1,0 +1,27 @@
+.notices-form-entry {
+  @extend .col-md-7;
+}
+
+.notices-form-instruction {
+  @extend .col-md-5;
+
+  .instructions {
+    background-color: #e0a800;
+    padding: 1em;
+    border-radius: 4px;
+    border: 1px solid #0003;
+  }
+}
+
+label, .form-group legend {
+  font-family: $font-header;
+  font-weight: 400;
+
+  &.form-check-label {
+    font-weight: 300;
+  }
+}
+
+.form-control {
+  font-weight: 300;
+}

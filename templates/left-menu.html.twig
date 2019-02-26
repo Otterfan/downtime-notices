@@ -1,31 +1,31 @@
-<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+<nav class="navbar navbar-expand-md col-md-2 d-none d-md-block sidebar">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
-            <li class="nav-item">
+            <li class="nav-item {% if app.request.attributes.get('_route') starts with 'dashboard' %}active{% endif %}">
                 <a class="nav-link active" href="{{ path('home') }}">
                     <i class="fas fa-home"></i>
                     Dashboard <span class="sr-only">(current)</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if app.request.attributes.get('_route') starts with 'notification' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('notification_list') }}">
                     <i class="fas fa-exclamation-triangle"></i>
                     Notifications
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if app.request.attributes.get('_route') starts with 'template' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('template_index') }}">
                     <i class="far fa-file-code"></i>
                     Templates
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if app.request.attributes.get('_route') starts with 'application' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('application_index') }}">
                     <i class="fas fa-server"></i>
                     Applications
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if app.request.attributes.get('_route') starts with 'user' %}active{% endif %}">
                 <a class="nav-link" href="{{ path('user_list') }}">
                     <i class="fas fa-users"></i> Users
                 </a>

@@ -4,10 +4,14 @@
     {{ title }}
 {% endblock %}
 
+{% block icon %}
+    <i class="fas fa-exclamation-triangle"></i>
+{% endblock %}
+
 {% block body %}
     {% form_theme note_form 'bootstrap_4_layout.html.twig' %}
 
-    {{ form_start(note_form) }}
+    {{ form_start(note_form, { 'attr': {'class': 'notices-edit-form'} }) }}
     {{ form_widget(note_form) }}
     <button type="submit" class="btn btn-primary">Submit</button>
     {{ form_end(note_form) }}

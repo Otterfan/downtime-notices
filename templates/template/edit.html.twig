@@ -2,6 +2,10 @@
 
 {% block title %}Edit template{% endblock %}
 
+{% block icon %}
+    <i class="far fa-file-code"></i>
+{% endblock %}
+
 {% block body %}
     {{ include('template/_form.html.twig', {'button_label': 'Update'}) }}
 
