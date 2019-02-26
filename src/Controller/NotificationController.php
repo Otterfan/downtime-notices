@@ -114,6 +114,17 @@ class NotificationController extends AbstractController
     }
 
     /**
+     * @Route("/notification/search", name="notification_search", methods={"GET"})
+     */
+    public function search(EntityManagerInterface $em, PaginatorInterface $paginator, Request $request)
+    {
+        $term = $request->get('q', '');
+        $query = $em->getRepository(Notification::class)->searchQuery($term);
+        $notes = $paginator->paginate($query, $request->query->getInt('page', 1));
+        return $this->render('notification/list.html.twig', ['notifications' => $notes]);
+    }
+
+    /**
      * @Route("/notification/{id}", name="notification_edit", methods={"GET","POST"})
      */
     public function edit(EntityManagerInterface $em, string $id, Request $request)

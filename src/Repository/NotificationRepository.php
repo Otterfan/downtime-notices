@@ -80,6 +80,18 @@ DQL;
 
     }
 
+    public function searchQuery(string $term): \Doctrine\ORM\Query
+    {
+        $dql = <<<DQL
+SELECT n FROM App\Entity\Notification n 
+WHERE (n.text LIKE :term)
+ORDER BY n.start DESC
+DQL;
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('term', "%$term%");
+        return $query;
+    }
+
     /**
      * @return Notification[]
      */
