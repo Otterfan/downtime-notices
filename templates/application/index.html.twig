@@ -6,6 +6,11 @@
     <i class="fas fa-server"></i>
 {% endblock %}
 
+{% block newbutton %}
+    <a href="{{ path('application_new') }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">New
+        application</a>
+{% endblock %}
+
 {% block body %}
     <table class="table applications-table">
         <thead>
@@ -24,7 +29,7 @@
                 <td>{{ application.uptimeRobotCode }}</td>
                 <td>
                     {% if application.template %}
-                        <a class="btn btn-primary btn-sm" href="{{ path('notification_create', {'template': application.template.id }) }}" role="button">Post</a>
+                        <a class="btn btn-danger btn-sm" href="{{ path('notification_create', {'template': application.template.id }) }}" role="button">Post</a>
                     {% endif %}
                 </td>
             </tr>
@@ -35,6 +40,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('application_new') }}">Create new</a>
 {% endblock %}

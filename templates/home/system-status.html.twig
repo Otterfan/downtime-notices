@@ -25,7 +25,7 @@
                 </td>
                 <td>
                     {% if app.app.template %}
-                        <a class="btn btn-warning btn-sm" href="{{ path('notification_create', {'template': app.app.template.id }) }}" role="button">Post</a>
+                        <a class="btn btn-danger btn-sm" href="{{ path('notification_create', {'template': app.app.template.id }) }}" role="button">Post</a>
                     {% endif %}
                 </td>            </tr>
         {% endfor %}

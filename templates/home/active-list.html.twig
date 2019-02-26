@@ -1,29 +1,33 @@
-<div class="row home-note-list">
-    <h2 class="col-md-4">Active notifications</h2>
-    <div class="new-note-btn-holder">
-        <a href="{{ path('notification_create') }}" class="btn btn-primary active" role="button" aria-pressed="true">New
-            notification</a>
+<div class="home-note-list">
+    <div class="row">
+        <h2>Active notifications</h2>
+        <div class="new-button-holder">
+            <a href="{{ path('notification_create') }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">New
+                notification</a>
+        </div>
     </div>
-    {% if not notes %}
-        <div>There are no active notifications.</div>
-    {% endif %}
+    <div class="row">
+        {% if not notes %}
+            <div class="col-md-12">There are no active notifications.</div>
+        {% endif %}
 
-    {% for note in notes %}
-        <div class="note-example">
-            <div class="alert alert-warning">
-                <div class="text">{{ note.text }}
+        {% for note in notes %}
+            <div class="note-example">
+                <div class="alert alert-warning">
+                    <div class="text">{{ note.text }}
+                    </div>
+                </div>
+                <div class="note-description">
+                    Posted <span class="datetime">{{ note.startString }}</span>
+                    by <span class="user">{{ note.poster.uid }}</span>.
+                    {% if note.finishString %}
+                        Ending <span class="datetime">{{ note.finishString }}</span>
+                    {% endif %}
                 </div>
             </div>
-            <div class="note-description">
-                Posted <span class="datetime">{{ note.startString }}</span>
-                by <span class="user">{{ note.poster.uid }}</span>.
-                {% if note.finishString %}
-                    Ending <span class="datetime">{{ note.finishString }}</span>
-                {% endif %}
+            <div class="notification-actions">
+                {{ include('notification/actions.html.twig', {'notification':note}) }}
             </div>
-        </div>
-        <div class="notification-actions">
-            {{ include('notification/actions.html.twig', {'notification':note}) }}
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>

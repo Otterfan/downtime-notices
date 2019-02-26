@@ -64,6 +64,10 @@ main {
   }
 }
 
+.new-button-holder {
+  margin-left: 1rem;
+}
+
 .sort-arrow {
   max-width: .75em;
 }
@@ -78,4 +82,9 @@ main {
   background-color: darken($color-button, 5%);
   color: lighten($color-white, 5%);
   font-weight: 400;
+}
+
+.btn {
+  font-family: $font-header;
+  font-variant: small-caps;
 }

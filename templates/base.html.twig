@@ -28,7 +28,10 @@
             {% else %}
                 <div class="pane-holder col-12">
                     <div class="pane">
-                        <h2>{% block icon %}{% endblock %}{{ block('title') }}</h2>
+                        <div class="row">
+                            <h2 class="page-title">{% block icon %}{% endblock %}{{ block('title') }}</h2>
+                            <div class="new-button-holder">{% block newbutton %}{% endblock %}</div>
+                        </div>
                         {% block body %}{% endblock %}
                     </div>
                 </div>

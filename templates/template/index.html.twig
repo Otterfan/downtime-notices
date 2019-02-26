@@ -6,23 +6,25 @@
     <i class="far fa-file-code"></i>
 {% endblock %}
 
+{% block newbutton %}
+    <a href="{{ path('template_new') }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">New
+        template</a>
+{% endblock %}
+
 {% block body %}
     <table class="table templates-table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Text</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Text</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for template in templates %}
             <tr>
-                <td>{{ template.id }}</td>
-                <td>{{ template.text }}</td>
+                <td><a href="{{ path('template_edit', {'id': template.id}) }}">{{ template.text }}</a></td>
                 <td>
-                    <a href="{{ path('template_edit', {'id': template.id}) }}">edit</a>
-                    <a href="{{ path('notification_create', {'template': template.id }) }}">use</a>
+                    <a class="btn btn-danger btn-sm" href="{{ path('notification_create', {'template': template.id }) }}" role="button">Post</a>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +34,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('template_new') }}">Create new</a>
 {% endblock %}
