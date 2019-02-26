@@ -167,6 +167,7 @@ class Notification
             'type'        => $this->getType() ? $this->getType()->getName() : null,
             'application' => $this->getApplication() ? $this->getApplication()->getName() : null,
             'start'       => $this->getStartString(),
+            'className'   => $this->isActive() ? 'fullcalendar-active-note' : '',
             'end'         => $this->getFinishString()
         ];
     }
@@ -182,8 +183,7 @@ class Notification
         $base['color'] = 'yellow';
 
         if ($base['end'] === null) {
-            $base['end'] = clone $base['start'];
-            $base['end']->add(new \DateInterval('P1D'));
+            $base['end'] = $base['start'];
         }
 
         return $base;
