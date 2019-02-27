@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search notifications{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block icon %}
+    <i class="fas fa-exclamation-triangle"></i>
+{% endblock %}
+
+{% block newbutton %}
+    <a href="{{ path('notification_create') }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">New
+        notification</a>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h3 class="note-status">Results for "{{ query }}"</h3>
+            {% if notes|length < 1 %}
+                <div class="no-notifications">
+                    No pending notifications.
+                </div>
+            {% else %}
+                <table class="table notifications-table">
+                    <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>{{ knp_pagination_sortable(notes, 'Start', 'n.start') }}</th>
+                        <th>End</th>
+                        <th>Poster</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for notification in notes %}
+                        <tr class="{% if notification.isActive %}active{% endif %}">
+                            <td>{{ notification.text }}</td>
+                            <td>{{ notification.startString }}</td>
+                            <td>{{ notification.finishString }}</td>
+                            <td>{{ notification.poster.uid }}</td>
+                            <td class="notification-actions">
+                                {{ include('notification/actions.html.twig', {'notification':notification}) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="navigation">
+                    {{ knp_pagination_render(notes) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

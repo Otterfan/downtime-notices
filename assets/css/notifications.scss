@@ -2,4 +2,19 @@
   .active {
     background-color: $color-warning-note;
   }
+  margin-bottom: 2rem;
+}
+
+.no-notifications {
+  margin-bottom: 2rem;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border: 1px dashed darken($color-gray, 5%);
+  background-color: lighten($color-gray, 18%);
+  @extend .col-md-12;
+}
+
+h3.note-status {
+  @extend .col-md-12;
+  font-size: 1.5rem;
 }

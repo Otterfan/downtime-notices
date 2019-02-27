@@ -80,6 +80,44 @@ DQL;
 
     }
 
+    /**
+     * @return Notification[]
+     * @throws \Exception
+     */
+    public function findPending(): array
+    {
+        $dql = /** @lang DQL */
+            <<< DQL
+SELECT n FROM App\Entity\Notification n
+WHERE (n.start > :now)
+AND (n.finish IS NULL OR n.finish > :now)
+ORDER BY n.start ASC 
+DQL;
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $now = new \DateTime('now', new \DateTimeZone('America/New_York'));
+        $query->setParameter('now', $now);
+        return $query->getResult();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function findClosedQuery()
+    {
+        $dql = /** @lang DQL */
+            <<< DQL
+SELECT n FROM App\Entity\Notification n
+WHERE (n.finish IS NOT NULL AND n.finish < :now)
+ORDER BY n.start ASC 
+DQL;
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $now = new \DateTime('now', new \DateTimeZone('America/New_York'));
+        $query->setParameter('now', $now);
+        return $query;
+    }
+
     public function searchQuery(string $term): \Doctrine\ORM\Query
     {
         $dql = <<<DQL

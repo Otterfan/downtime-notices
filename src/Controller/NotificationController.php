@@ -23,9 +23,17 @@ class NotificationController extends AbstractController
      */
     public function list(EntityManagerInterface $em, PaginatorInterface $paginator, Request $request)
     {
-        $query = $em->getRepository(Notification::class)->findAllQuery();
-        $notes = $paginator->paginate($query, $request->query->getInt('page', 1));
-        return $this->render('notification/list.html.twig', ['notifications' => $notes]);
+        $repo = $em->getRepository(Notification::class);
+        $closed_query = $repo->findClosedQuery();
+        $closed = $paginator->paginate($closed_query, $request->query->getInt('page', 1));
+
+        $active = $repo->findActiveNotifications();
+        $pending = $repo->findPending();
+
+        return $this->render(
+            'notification/list.html.twig',
+            ['closed' => $closed, 'active' => $active, 'pending' => $pending]
+        );
     }
 
     /**
@@ -121,7 +129,7 @@ class NotificationController extends AbstractController
         $term = $request->get('q', '');
         $query = $em->getRepository(Notification::class)->searchQuery($term);
         $notes = $paginator->paginate($query, $request->query->getInt('page', 1));
-        return $this->render('notification/list.html.twig', ['notifications' => $notes]);
+        return $this->render('notification/search.html.twig', ['notes' => $notes, 'query' => $term]);
     }
 
     /**
@@ -297,7 +305,7 @@ class NotificationController extends AbstractController
     }
 
     /**
-     * @param Notification           $new_note
+     * @param Notification $new_note
      * @param EntityManagerInterface $em
      */
     private function saveNote(Notification $new_note, EntityManagerInterface $em): void
