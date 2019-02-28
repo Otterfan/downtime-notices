@@ -180,7 +180,7 @@ class Notification
         unset($base['text']);
 
         $base['url'] = "$route_base/{$this->id}";
-        $base['color'] = 'yellow';
+        $base['color'] = 'white';
 
         if ($base['end'] === null) {
             $base['end'] = $base['start'];

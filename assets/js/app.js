@@ -17,6 +17,10 @@ import 'fullcalendar';
 $('.homepage #calendar').fullCalendar({
     themeSystem: 'bootstrap4',
     defaultView: 'listWeek',
+    visibleRange: {
+        start: '2019-02-24',
+        end: '2019-03-25'
+    },
     noEventsMessage: 'No notifications scheduled',
     eventSources: [
         {url: 'feed'}

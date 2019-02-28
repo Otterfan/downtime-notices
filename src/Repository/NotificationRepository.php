@@ -100,6 +100,23 @@ DQL;
         return $query->getResult();
     }
 
+    public function findByStartDate(string $start, string $end)
+    {
+        $dql = /** @lang DQL */
+            <<< DQL
+SELECT n FROM App\Entity\Notification n
+WHERE (n.start > :start)
+AND (n.start < :end)
+ORDER BY n.start ASC 
+DQL;
+        $query = $this->getEntityManager()->createQuery($dql);
+        $start_obj = new \DateTime($start, new \DateTimeZone('America/New_York'));
+        $end_obj = new \DateTime($end, new \DateTimeZone('America/New_York'));
+        $query->setParameter('start', $start_obj);
+        $query->setParameter('end', $end_obj);
+        return $query->getResult();
+    }
+
     /**
      * @throws \Exception
      */

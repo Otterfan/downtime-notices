@@ -82,9 +82,11 @@ class NotificationController extends AbstractController
     /**
      * @Route("/feed", name="notification_feed_list")
      */
-    public function calendarFeed(EntityManagerInterface $em)
+    public function calendarFeed(EntityManagerInterface $em, Request $request)
     {
-        $notes = $em->getRepository(Notification::class)->findActiveAndPendingNotifications();
+        $start = $request->get('start');
+        $end = $request->get('end');
+        $notes = $em->getRepository(Notification::class)->findByStartDate($start, $end);
 
         $response = [];
         foreach ($notes as $note) {
