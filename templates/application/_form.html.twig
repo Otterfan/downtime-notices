@@ -1,6 +1,16 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-
-{{ form_start(form,  { 'attr': {'class': 'notices-edit-form'} }) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="row">
+    <div class="notices-form-entry">
+        {{ form_start(form,  { 'attr': {'class': 'notices-edit-form'} }) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+    </div>
+    <div class="notices-form-instruction">
+        <div class="instructions">
+            <p><strong>Applications</strong> with templates will appear on the dashboard with a button for quickly posting a notification</p>
+            <p>Choose a <em>name</em> for your application and chose a <em>template.</em></p>
+            <p>Add the application's <em>Uptime Robot</em> monitor code if you want it's status tracked on the Dashboard.</p>
+        </div>
+    </div>
+</div>

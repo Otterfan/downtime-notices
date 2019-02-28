@@ -296,9 +296,9 @@ class NotificationController extends AbstractController
     private function renderEditForm(FormInterface $form, string $title = 'Edit notification'): Response
     {
         return $this->render(
-            'notification/form.html.twig',
+            'notification/new.html.twig',
             [
-                'note_form' => $form->createView(),
+                'form' => $form->createView(),
                 'title'     => $title
             ]
         );

@@ -9,11 +9,8 @@
 {% endblock %}
 
 {% block body %}
-    {% form_theme user_form 'bootstrap_4_layout.html.twig' %}
+    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ form_start(user_form, { 'attr': {'class': 'notices-edit-form'} }) }}
-    {{ form_widget(user_form) }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-    {{ form_end(user_form) }}
+    <a href="{{ path('template_index') }}">back to list</a>
 {% endblock %}
 

@@ -9,12 +9,9 @@
 {% endblock %}
 
 {% block body %}
-    {% form_theme note_form 'bootstrap_4_layout.html.twig' %}
+    {{ include('notification/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ form_start(note_form, { 'attr': {'class': 'notices-edit-form'} }) }}
-    {{ form_widget(note_form) }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-    {{ form_end(note_form) }}
+    <a href="{{ path('template_index') }}">back to list</a>
 {% endblock %}
 
 {% block javascripts %}

@@ -1,0 +1,15 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+<div class="row">
+    <div class="notices-form-entry">
+        {{ form_start(form, { 'attr': {'class': 'notices-edit-form'} }) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+        {{ form_end(form) }}
+    </div>
+    <div class="notices-form-instruction">
+        <div class="instructions">
+            <p><strong>Users</strong> have permission to post notifications.
+            <p>A <em>uid</em> is a user's BC username, which is used for authentication.</p>
+        </div>
+    </div>
+</div>

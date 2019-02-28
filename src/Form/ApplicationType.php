@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Application;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,16 +15,13 @@ class ApplicationType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('uptime_robot_code')
             ->add('template')
-            ->add(
-                'automatic',
-                CheckboxType::class,
+            ->add('uptime_robot_code',
+                TextType::class,
                 [
-                    'label'    => 'Post notice on Uptime Robot report?',
+                    'label'    => 'Uptime Robot code',
                     'required' => false
-                ]
-            );
+                ] );
     }
 
     public function configureOptions(OptionsResolver $resolver)
