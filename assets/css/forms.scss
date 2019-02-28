@@ -1,6 +1,10 @@
 .notices-form-entry {
   @extend .col-md-8;
   padding-right: 2rem;
+
+  button[type=submit] {
+    margin-top: 1em;
+  }
 }
 
 .notices-form-instruction {
@@ -25,4 +29,10 @@ label, .form-group legend {
 
 .form-control {
   font-weight: 300;
+}
+
+a.back-to-list {
+  display: block;
+  margin-top: 2em;
+  font-size: 14px;
 }

@@ -3,7 +3,7 @@
     <div class="notices-form-entry">
         {{ form_start(form,  { 'attr': {'class': 'notices-edit-form'} }) }}
         {{ form_widget(form) }}
-        <button class="btn">{{ button_label|default('Save') }}</button>
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
         {{ form_end(form) }}
     </div>
     <div class="notices-form-instruction">

@@ -11,7 +11,7 @@
 {% block body %}
     {{ include('notification/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('template_index') }}">back to list</a>
+    <a href="{{ path('template_index') }}" class="back-to-list">back to list</a>
 {% endblock %}
 
 {% block javascripts %}
