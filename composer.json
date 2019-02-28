@@ -8,6 +8,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-ldap": "*",
+        "erusev/parsedown": "^1.7",
         "knplabs/knp-paginator-bundle": "^2.8",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/apache-pack": "^1.0",

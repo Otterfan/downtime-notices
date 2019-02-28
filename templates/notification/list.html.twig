@@ -39,7 +39,7 @@
                     <tbody>
                     {% for notification in active %}
                         <tr class="{% if notification.isActive %}active{% endif %}">
-                            <td>{{ notification.text }}</td>
+                            <td>{{ notification.parsedText|raw }}</td>
                             <td>{{ notification.startString }}</td>
                             <td>{{ notification.finishString }}</td>
                             <td>{{ notification.poster.uid }}</td>
@@ -77,7 +77,7 @@
                     <tbody>
                     {% for notification in pending %}
                         <tr class="{% if notification.isActive %}active{% endif %}">
-                            <td>{{ notification.text }}</td>
+                            <td>{{ notification.parsedText|raw }}</td>
                             <td>{{ notification.startString }}</td>
                             <td>{{ notification.finishString }}</td>
                             <td>{{ notification.poster.uid }}</td>
@@ -113,7 +113,7 @@
                     <tbody>
                     {% for notification in closed %}
                         <tr class="{% if notification.isActive %}active{% endif %}">
-                            <td>{{ notification.text }}</td>
+                            <td>{{ notification.parsedText|raw }}</td>
                             <td>{{ notification.startString }}</td>
                             <td>{{ notification.finishString }}</td>
                             <td>{{ notification.poster.uid }}</td>

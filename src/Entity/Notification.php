@@ -58,6 +58,11 @@ class Notification
      */
     private $application;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $parsed_text;
+
     public function __construct()
     {
         $this->views = new ArrayCollection();
@@ -75,8 +80,10 @@ class Notification
 
     public function setText(string $text): self
     {
+        $parser = new \Parsedown();
+        $parser->setSafeMode(true);
         $this->text = $text;
-
+        $this->setParsedText($parser->line($text));
         return $this;
     }
 
@@ -163,6 +170,7 @@ class Notification
         return [
             'id'          => $this->id,
             'text'        => $this->text,
+            'parsed_text' => $this->parsed_text,
             'priority'    => $this->getPriority() ? $this->getPriority()->getLevel() : 3,
             'type'        => $this->getType() ? $this->getType()->getName() : null,
             'application' => $this->getApplication() ? $this->getApplication()->getName() : null,
@@ -252,6 +260,18 @@ class Notification
     public function setApplication(?Application $application): self
     {
         $this->application = $application;
+
+        return $this;
+    }
+
+    public function getParsedText(): ?string
+    {
+        return $this->parsed_text;
+    }
+
+    public function setParsedText(string $parsed_text): self
+    {
+        $this->parsed_text = $parsed_text;
 
         return $this;
     }

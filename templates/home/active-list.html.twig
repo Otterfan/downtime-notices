@@ -14,7 +14,7 @@
         {% for note in notes %}
             <div class="note-example">
                 <div class="alert alert-warning">
-                    <div class="text">{{ note.text }}
+                    <div class="text">{{ note.parsedText|raw }}
                     </div>
                 </div>
                 <div class="note-description">

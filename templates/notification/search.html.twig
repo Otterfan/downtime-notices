@@ -37,7 +37,7 @@
                     <tbody>
                     {% for notification in notes %}
                         <tr class="{% if notification.isActive %}active{% endif %}">
-                            <td>{{ notification.text }}</td>
+                            <td>{{ notification.parsedText|raw }}</td>
                             <td>{{ notification.startString }}</td>
                             <td>{{ notification.finishString }}</td>
                             <td>{{ notification.poster.uid }}</td>

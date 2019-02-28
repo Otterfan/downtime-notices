@@ -21,6 +21,13 @@ $('.homepage #calendar').fullCalendar({
         start: '2019-02-24',
         end: '2019-03-25'
     },
+    eventRender: function(event, $el) {
+        console.log(event);
+        if (event.parsed_text) {
+            console.log($el.find(".fc-list-item-title a"));
+            $el.find(".fc-list-item-title a").html(event.parsed_text);
+        }
+    },
     noEventsMessage: 'No notifications scheduled',
     eventSources: [
         {url: 'feed'}
