@@ -43,7 +43,7 @@ class NotificationController extends AbstractController
     {
         $notes = $em->getRepository(Notification::class)->findActiveNotifications();
 
-        $response = [
+        $payload = [
             'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
             'notes'    => []
         ];
@@ -52,11 +52,13 @@ class NotificationController extends AbstractController
             $view = new NotificationView();
             $view->setNotification($note);
             $em->persist($view);
-            $response['notes'][] = $note->publicView();
+            $payload['notes'][] = $note->publicView();
         }
         $em->flush();
 
-        return $this->json($response);
+         $response = $this->json($payload);
+         $response->headers->set('Access-Control-Allow-Origin', '*');
+         return $response;
     }
 
     /**
@@ -66,16 +68,18 @@ class NotificationController extends AbstractController
     {
         $notes = $em->getRepository(Notification::class)->findPendingNotifications();
 
-        $response = [
+        $oayload = [
             'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
             'notes'    => []
         ];
 
         foreach ($notes as $note) {
-            $response['notes'][] = $note->publicView();
+            $oayload['notes'][] = $note->publicView();
         }
 
-        return $this->json($response);
+        $response = $this->json($payload);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
 

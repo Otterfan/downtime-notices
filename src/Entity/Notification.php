@@ -163,7 +163,7 @@ class Notification
         return [
             'id'          => $this->id,
             'text'        => $this->text,
-            'priority'    => $this->getPriority() ? $this->getPriority()->getName() : null,
+            'priority'    => $this->getPriority() ? $this->getPriority()->getLevel() : 3,
             'type'        => $this->getType() ? $this->getType()->getName() : null,
             'application' => $this->getApplication() ? $this->getApplication()->getName() : null,
             'start'       => $this->getStartString(),
