@@ -32,11 +32,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/user, roles: ROLE_USER }
-        - { path: ^/notification, roles: ROLE_USER }
-        - { path: ^/template, roles: ROLE_USER }
+        # - { path: ^/admin, roles: ROLE_ADMIN }\
         - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/notification, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_ADMIN }
+        - { path: ^/template, roles: ROLE_ADMIN }
+        - { path: ^/application, roles: ROLE_ADMIN }
 
 
 

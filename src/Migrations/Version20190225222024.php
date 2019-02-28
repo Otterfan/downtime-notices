@@ -76,7 +76,7 @@ final class Version20190225222024 extends AbstractMigration
 
         $add_user_sql = <<<SQL
 INSERT INTO notices.user (uid, roles, last_name, first_name, email)
-VALUES ('{$first_user['uid']}', '[]', '{$first_user['lname']}', '{$first_user['fname']}', '{$first_user['email']}');
+VALUES ('{$first_user['uid']}', '["ROLE_ADMIN"]', '{$first_user['lname']}', '{$first_user['fname']}', '{$first_user['email']}');
 SQL;
 
         echo "$add_user_sql\n";
