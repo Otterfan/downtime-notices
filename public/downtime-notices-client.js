@@ -16,9 +16,9 @@ const BCLibDowntimeNotices = function (options) {
         'overflow: hidden;\n' +
         'padding: 1em 2em;\n' +
         'box-shadow: 0 0 5px black;';
-    const request = buildRequest();
-
     options = setOptions(options);
+
+    const request = buildRequest();
     request.send();
 
     function setOptions(options) {
@@ -32,6 +32,8 @@ const BCLibDowntimeNotices = function (options) {
 
     function buildRequest() {
         const request = new XMLHttpRequest();
+
+        console.log(options);
 
         request.open('GET', options.url, true);
         request.onload = processRequest;

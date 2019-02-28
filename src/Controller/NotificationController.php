@@ -68,13 +68,13 @@ class NotificationController extends AbstractController
     {
         $notes = $em->getRepository(Notification::class)->findPendingNotifications();
 
-        $oayload = [
+        $payload = [
             'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
             'notes'    => []
         ];
 
         foreach ($notes as $note) {
-            $oayload['notes'][] = $note->publicView();
+            $payload['notes'][] = $note->publicView();
         }
 
         $response = $this->json($payload);
