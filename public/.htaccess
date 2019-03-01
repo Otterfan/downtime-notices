@@ -67,6 +67,11 @@ DirectoryIndex index.php
     </IfModule>
 </IfModule>
 
+order deny,allow
+deny from all
+allow from 136.167.0.0/16
+allow from 10.32.0.0/16
+
 SetEnv APP_ENV prod
 SetEnv SYMFONY_ENV prod
 
