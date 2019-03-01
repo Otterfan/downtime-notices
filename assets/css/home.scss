@@ -10,7 +10,7 @@
   main {
     .top-row {
       .pane {
-        height: 300px;
+        min-height: 300px;
       }
     }
 
@@ -24,6 +24,10 @@
 
       .fullcalendar-active-note {
         background: $color-warning-note;
+      }
+
+      .fc-list-item-title a a {
+        color: blue;
       }
     }
 
@@ -63,6 +67,12 @@
 
     .note-example {
       @extend .col-md-10;
+
+      margin-bottom: 1em;
+
+      .alert-warning {
+        margin-bottom: 0;
+      }
 
       .user {
         font-style: italic;

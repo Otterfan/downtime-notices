@@ -50,12 +50,18 @@ main {
 
   li {
 
+    a {
+      font-size: 16px;
+    }
+
     button {
       border: none;
       padding: 0;
       background: none;
       color: $blue;
       cursor: pointer;
+      font-weight: 300;
+      font-size: 16px;
 
       &.text-muted {
         cursor: initial;

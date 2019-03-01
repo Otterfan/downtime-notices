@@ -56,9 +56,9 @@ class NotificationController extends AbstractController
         }
         $em->flush();
 
-         $response = $this->json($payload);
-         $response->headers->set('Access-Control-Allow-Origin', '*');
-         return $response;
+        $response = $this->json($payload);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
     /**
@@ -173,12 +173,7 @@ class NotificationController extends AbstractController
         $note->deactivate();
         $this->saveNote($note, $em);
 
-        $url_parts = parse_url($request->headers->get('Referer'));
-        if ($url_parts && $url_parts['path'] === $this->generateUrl('home')) {
-            return $this->redirectWithFlash('home', 'Deactivated notification');
-        }
-
-        return $this->redirectWithFlash('notification_list', 'Deactivated notification');
+        return $this->redirectToHomeOrList($request, 'Deactivated notification');
     }
 
     /**
@@ -195,7 +190,7 @@ class NotificationController extends AbstractController
         $em->remove($note);
         $em->flush();
 
-        return $this->redirectWithFlash('notification_list', 'Deleted notification');
+        return $this->redirectToHomeOrList($request, 'Deleted notification');
     }
 
     /**
@@ -304,19 +299,34 @@ class NotificationController extends AbstractController
         return $this->render(
             'notification/new.html.twig',
             [
-                'form' => $form->createView(),
-                'title'     => $title
+                'form'  => $form->createView(),
+                'title' => $title
             ]
         );
     }
 
     /**
-     * @param Notification $new_note
+     * @param Notification           $new_note
      * @param EntityManagerInterface $em
      */
     private function saveNote(Notification $new_note, EntityManagerInterface $em): void
     {
         $em->persist($new_note);
         $em->flush();
+    }
+
+    /**
+     * @param Request $request
+     * @param string  $message
+     * @return RedirectResponse
+     */
+    protected function redirectToHomeOrList(Request $request, string $message): RedirectResponse
+    {
+        $url_parts = parse_url($request->headers->get('Referer'));
+        if ($url_parts && strpos($url_parts['path'], 'dashboard')) {
+            return $this->redirectWithFlash('home', $message);
+        } else {
+            return $this->redirectWithFlash('notification_list', $message);
+        }
     }
 }
