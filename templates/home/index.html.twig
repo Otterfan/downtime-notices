@@ -8,9 +8,15 @@
 
     <div class="row top-row">
         {# List of active notifications #}
-        <div class="pane-holder col-md-12">
+        <div class="pane-holder col-md-8">
             <div class="pane active-list-pane">
                 {{ include('home/active-list.html.twig', {'notes': notes}) }}
+            </div>
+        </div>
+
+        <div class="pane-holder col-md-4">
+            <div class="pane from-templates-pane">
+                {{ include('home/templates.html.twig', {'templates': templates}) }}
             </div>
         </div>
     </div>

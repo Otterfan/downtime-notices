@@ -12,6 +12,21 @@
       .pane {
         min-height: 300px;
       }
+
+      .from-templates-pane {
+        max-height: 300px;
+
+        ul {
+          max-height: 200px;
+          overflow-y: scroll;
+
+          list-style:none;
+          padding: 0;
+
+          font-size: 1rem;
+
+        }
+      }
     }
 
     #calendar {

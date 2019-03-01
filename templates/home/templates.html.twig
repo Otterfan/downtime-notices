@@ -1,0 +1,8 @@
+<h2>Post from template</h2>
+<ul>
+    {% for template in templates %}
+        <li>
+            <a href="{{ path('notification_create', {'template': template.id }) }}">{{ template.name }}</a>
+        </li>
+    {% endfor %}
+</ul>

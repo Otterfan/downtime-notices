@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Application;
 use App\Entity\Notification;
+use App\Entity\Template;
 use App\UptimeRobot\Client;
 use App\UptimeRobot\Monitor;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +32,8 @@ class HomeController extends AbstractController
 
         $notes = $repo->findActiveNotifications();
 
+        $templates = $em->getRepository(Template::class)->findAll();
+
         $error = false;
 
         $apps = [];
@@ -48,7 +51,8 @@ class HomeController extends AbstractController
                 'apps'            => $apps,
                 'notes'           => $notes,
                 'controller_name' => 'HomeController',
-                'error_message'   => $error
+                'error_message'   => $error,
+                'templates'       => $templates
             ]
         );
     }
@@ -75,7 +79,7 @@ class HomeController extends AbstractController
             function (Monitor $monitor) use ($apps_to_check) {
                 return [
                     'monitor' => $monitor,
-                    'app'  => $apps_to_check[$monitor->id]
+                    'app'     => $apps_to_check[$monitor->id]
                 ];
             },
             $monitors

@@ -20,7 +20,7 @@ class TemplateRepository extends ServiceEntityRepository
 
     public function findAll(): array
     {
-        return $this->findBy([], ['text' => 'ASC']);
+        return $this->findBy([], ['name' => 'ASC']);
     }
 
     // /**
