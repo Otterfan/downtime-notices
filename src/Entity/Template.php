@@ -39,6 +39,11 @@ class Template
      */
     private $application;
 
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $name;
+
     public function __construct()
     {
         $this->applications = new ArrayCollection();
@@ -87,7 +92,7 @@ class Template
 
     public function __toString()
     {
-        return $this->text;
+        return $this->name;
     }
 
     public function getApplication(): ?Application
@@ -104,6 +109,18 @@ class Template
         if ($newTemplate !== $application->getTemplate()) {
             $application->setTemplate($newTemplate);
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

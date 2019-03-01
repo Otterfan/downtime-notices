@@ -15,6 +15,7 @@
     <table class="table templates-table">
         <thead>
         <tr>
+            <th>Name</th>
             <th>Text</th>
             <th>actions</th>
         </tr>
@@ -22,7 +23,8 @@
         <tbody>
         {% for template in templates %}
             <tr>
-                <td><a href="{{ path('template_edit', {'id': template.id}) }}">{{ template.text }}</a></td>
+                <td><a href="{{ path('template_edit', {'id': template.id}) }}">{{ template.name }}</a></td>
+                <td class="template-text">{{ template.text|truncate(35, true) }}</td>
                 <td>
                     <a class="btn btn-danger btn-sm" href="{{ path('notification_create', {'template': template.id }) }}" role="button">Post</a>
                 </td>
