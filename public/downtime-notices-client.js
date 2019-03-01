@@ -53,7 +53,7 @@ const BCLibDowntimeNotices = function (options) {
     }
 
     function display(data) {
-        const text = data.notes.sort(compareNotes)[0].text;
+        const text = data.notes.sort(compareNotes)[0].parsed_text;
         const note = document.createElement('div');
 
         note.setAttribute('class', options.class);
