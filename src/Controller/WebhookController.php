@@ -17,7 +17,7 @@ class WebhookController extends AbstractController
     private const UP_ALERT_CODE = '2';
 
     /**
-     * @Route("/listen", name="user_list")
+     * @Route("/listen", name="webhook_listen")
      */
     public function listen(EntityManagerInterface $em, Request $req)
     {

@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-12">
+        <h3 class="note-status">{{ name|upper }}</h3>
+        {% if notelist|length < 1 %}
+            <div class="no-notifications">
+                No {{ name }} notifications.
+            </div>
+        {% else %}
+            <table class="table notifications-table">
+                <thead>
+                <tr>
+                    <th>Message</th>
+                    <th>
+                        {% if paginate %}
+                            {{ knp_pagination_sortable(closed, 'Start', 'n.start') }}
+                        {% else %}
+                            Start
+                        {% endif %}
+                    </th>
+                    <th>End</th>
+                    <th>Poster</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for notification in notelist %}
+                    <tr class="{% if notification.isActive %}active{% endif %}">
+                        <td>{{ notification.parsedText|raw }}</td>
+                        <td>
+                            {{ notification.startString }}</td>
+                        <td>{{ notification.finishString }}</td>
+                        <td>{% if notification.autoposted %}
+                                Uptime Robot
+                            {% else %}
+                                {{ notification.poster.uid }}
+                            {% endif %}
+                        </td>
+                        <td class="notification-actions">
+                            {{ include('notification/actions.html.twig', {'notification':notification}) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if paginate %}
+                    <div class="navigation">
+                        {{ knp_pagination_render(closed) }}
+                    </div>
+                {% endif %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>

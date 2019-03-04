@@ -16,118 +16,12 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-12">
-            <h3 class="note-status">Active</h3>
+    {% set active_params = {'name': 'active', 'notelist': active, 'paginate': false} %}
+    {% include 'notification/_note_list.html.twig' with active_params  %}
 
-            {% if active|length < 1 %}
-                <div class="no-notifications">
-                    No active notifications.
-                </div>
-            {% else %}
+    {% set pending_params = {'name': 'pending', 'notelist': pending, 'paginate': false} %}
+    {% include 'notification/_note_list.html.twig' with pending_params %}
 
-                <table class="table notifications-table">
-                    <thead>
-                    <tr>
-                        <th>Message</th>
-                        <th>Active</th>
-                        <th>End</th>
-                        <th>Poster</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for notification in active %}
-                        <tr class="{% if notification.isActive %}active{% endif %}">
-                            <td>{{ notification.parsedText|raw }}</td>
-                            <td>{{ notification.startString }}</td>
-                            <td>{{ notification.finishString }}</td>
-                            <td>{{ notification.poster.uid }}</td>
-                            <td class="notification-actions">
-                                {{ include('notification/actions.html.twig', {'notification':notification}) }}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <h3 class="note-status">Pending</h3>
-            {% if pending|length < 1 %}
-                <div class="no-notifications">
-                    No pending notifications.
-                </div>
-            {% else %}
-
-                <table class="table notifications-table">
-                    <thead>
-                    <tr>
-                        <th>Message</th>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Poster</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for notification in pending %}
-                        <tr class="{% if notification.isActive %}active{% endif %}">
-                            <td>{{ notification.parsedText|raw }}</td>
-                            <td>{{ notification.startString }}</td>
-                            <td>{{ notification.finishString }}</td>
-                            <td>{{ notification.poster.uid }}</td>
-                            <td class="notification-actions">
-                                {{ include('notification/actions.html.twig', {'notification':notification}) }}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <h3 class="note-status">Closed</h3>
-            {% if closed|length < 1 %}
-                <div class="no-notifications">
-                    No pending notifications.
-                </div>
-            {% else %}
-                <table class="table notifications-table">
-                    <thead>
-                    <tr>
-                        <th>Message</th>
-                        <th>{{ knp_pagination_sortable(closed, 'Start', 'n.start') }}</th>
-                        <th>End</th>
-                        <th>Poster</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for notification in closed %}
-                        <tr class="{% if notification.isActive %}active{% endif %}">
-                            <td>{{ notification.parsedText|raw }}</td>
-                            <td>{{ notification.startString }}</td>
-                            <td>{{ notification.finishString }}</td>
-                            <td>{{ notification.poster.uid }}</td>
-                            <td class="notification-actions">
-                                {{ include('notification/actions.html.twig', {'notification':notification}) }}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <div class="navigation">
-                    {{ knp_pagination_render(closed) }}
-                </div>
-            {% endif %}
-        </div>
-    </div>
+    {% set pending_params = {'name': 'closed', 'notelist': closed, 'paginate': true} %}
+    {% include 'notification/_note_list.html.twig' with pending_params %}
 {% endblock %}
