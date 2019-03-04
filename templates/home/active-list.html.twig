@@ -12,22 +12,26 @@
         {% endif %}
 
         {% for note in notes %}
-            <div class="note-example">
-                <div class="alert alert-warning">
-                    <div class="text">{{ note.parsedText|raw }}
-                    </div>
-                </div>
-                <div class="note-description">
-                    Posted <span class="datetime">{{ note.startString }}</span>
-                    by <span class="user">{{ note.poster.uid }}</span>.
-                    {% if note.finishString %}
-                        Ending <span class="datetime">{{ note.finishString }}</span>
-                    {% endif %}
+        <div class="note-example">
+            <div class="alert alert-warning">
+                <div class="text">{{ note.parsedText|raw }}
                 </div>
             </div>
-            <div class="notification-actions">
-                {{ include('notification/actions.html.twig', {'notification':note}) }}
+            <div class="note-description">
+                Posted <span class="datetime">{{ note.startString }}</span>
+                {% if note.autoposted %}
+                by <span class="user">Uptime Robot</span>
+                {% else %}
+                by <span class="user">{{ note.poster.uid }}</span>.
+                {% endif %}
+                {% if note.finishString %}
+                    Ending <span class="datetime">{{ note.finishString }}</span>
+                {% endif %}
             </div>
+        </div>
+        <div class="notification-actions">
+            {{ include('notification/actions.html.twig', {'notification':note}) }}
+        </div>
         {% endfor %}
     </div>
 </div>

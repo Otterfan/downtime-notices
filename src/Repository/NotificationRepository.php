@@ -149,6 +149,25 @@ DQL;
 
     /**
      * @return Notification[]
+     * @throws \Exception
+     */
+    public function findActiveAutoposts()
+    {
+        $dql = <<<DQL
+SELECT n FROM App\Entity\Notification n
+WHERE n.autoposted = 1
+AND n.start < :now
+AND  (n.finish IS NULL OR n.finish > :now)
+ORDER BY n.start ASC 
+DQL;
+        $query = $this->getEntityManager()->createQuery($dql);
+        $now = new \DateTime('now', new \DateTimeZone('America/New_York'));
+        $query->setParameter('now', $now);
+        return $query->getResult();
+    }
+
+    /**
+     * @return Notification[]
      */
     public function findAll(): array
     {

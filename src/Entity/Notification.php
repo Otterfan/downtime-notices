@@ -63,6 +63,11 @@ class Notification
      */
     private $parsed_text;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $autoposted = false;
+
     public function __construct()
     {
         $this->views = new ArrayCollection();
@@ -272,6 +277,26 @@ class Notification
     public function setParsedText(string $parsed_text): self
     {
         $this->parsed_text = $parsed_text;
+
+        return $this;
+    }
+
+    public function loadFromTemlpate(Template $template)
+    {
+        $this->setApplication($template->getApplication());
+        $this->setText($template->getText());
+        $this->setPriority($template->getPriority());
+        $this->setType($template->getType());
+    }
+
+    public function getAutoposted(): ?bool
+    {
+        return $this->autoposted;
+    }
+
+    public function setAutoposted(bool $autoposted): self
+    {
+        $this->autoposted = $autoposted;
 
         return $this;
     }

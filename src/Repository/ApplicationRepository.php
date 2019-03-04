@@ -23,6 +23,12 @@ class ApplicationRepository extends ServiceEntityRepository
         return $this->findBy([], ['name' => 'ASC']);
     }
 
+    public function findByUptimeRobotId(string $ur_code): ?Application
+    {
+        $result = $this->findBy(['uptime_robot_code' => $ur_code]);
+        return count($result) > 0 ? $result[0] : null;
+    }
+
     // /**
     //  * @return Application[] Returns an array of Application objects
     //  */
