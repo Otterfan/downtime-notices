@@ -8,6 +8,18 @@
     <i class="fas fa-exclamation-triangle"></i>
 {% endblock %}
 
+{% block newbutton %}
+    <div class="template-load-control">
+        <label for="load-from-template">Load from template</label>
+        <select name="load-from-template" id="load-from-template" onchange="location = this.options[this.selectedIndex].value;">
+            <option>Select...</option>
+            {% for template in templates %}
+                <option value="{{ path('notification_create', {'template': template.id }) }}">{{ template.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}
+
 {% block body %}
     {{ include('notification/_form.html.twig', {'button_label': 'Update'}) }}
 

@@ -2,6 +2,7 @@
   .active {
     background-color: $color-warning-note;
   }
+
   margin-bottom: 2rem;
 }
 
@@ -17,4 +18,16 @@
 h3.note-status {
   @extend .col-md-12;
   font-size: 1.5rem;
+}
+
+.template-load-control {
+  margin-top: 5px;
+
+  label {
+    font-size: 1.2rem;
+    font-weight: 300;
+  }
+  select {
+    color: #999;
+  }
 }

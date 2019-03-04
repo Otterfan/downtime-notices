@@ -156,7 +156,7 @@ class NotificationController extends AbstractController
             return $this->processForm($form, 'edited');
         }
 
-        return $this->renderEditForm($form, 'Edit notification');
+        return $this->renderEditForm($form, 'Edit notification', $templates);
     }
 
     /**
@@ -296,11 +296,13 @@ class NotificationController extends AbstractController
      */
     private function renderEditForm(FormInterface $form, string $title = 'Edit notification'): Response
     {
+        $templates = $this->getDoctrine()->getRepository(Template::class)->findAll();
         return $this->render(
             'notification/new.html.twig',
             [
-                'form'  => $form->createView(),
-                'title' => $title
+                'form'      => $form->createView(),
+                'title'     => $title,
+                'templates' => $templates
             ]
         );
     }
