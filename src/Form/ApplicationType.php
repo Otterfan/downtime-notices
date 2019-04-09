@@ -16,12 +16,24 @@ class ApplicationType extends AbstractType
         $builder
             ->add('name')
             ->add('template')
-            ->add('uptime_robot_code',
+            ->add(
+                'uptime_robot_code',
                 TextType::class,
                 [
                     'label'    => 'Uptime Robot code',
                     'required' => false
-                ] );
+                ]
+            )
+            ->add(
+                'on_status_page',
+                CheckboxType::class,
+                [
+                    'label' => 'Show on public status page?',
+                    'attr'  => ['class' => 'show-on-public-status-page']
+                ]
+            )
+            ->add('public_name')
+            ->add('public_description');
     }
 
     public function configureOptions(OptionsResolver $resolver)

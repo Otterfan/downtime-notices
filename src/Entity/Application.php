@@ -43,6 +43,26 @@ class Application
      */
     private $automatic = false;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $on_status_page;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $public_description;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $public_name;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
@@ -133,6 +153,54 @@ class Application
     public function setAutomatic(bool $automatic): self
     {
         $this->automatic = $automatic;
+
+        return $this;
+    }
+
+    public function getOnStatusPage(): ?bool
+    {
+        return $this->on_status_page;
+    }
+
+    public function setOnStatusPage(bool $on_status_page): self
+    {
+        $this->on_status_page = $on_status_page;
+
+        return $this;
+    }
+
+    public function getPublicDescription(): ?string
+    {
+        return $this->public_description;
+    }
+
+    public function setPublicDescription(string $public_description): self
+    {
+        $this->public_description = $public_description;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getPublicName(): ?string
+    {
+        return $this->public_name;
+    }
+
+    public function setPublicName(string $public_name): self
+    {
+        $this->public_name = $public_name;
 
         return $this;
     }
