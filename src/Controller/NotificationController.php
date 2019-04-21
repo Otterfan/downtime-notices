@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\NotificationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -42,23 +43,7 @@ class NotificationController extends AbstractController
     public function listActive(EntityManagerInterface $em, Request $request)
     {
         $notes = $em->getRepository(Notification::class)->findActiveNotifications();
-
-        $payload = [
-            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
-            'notes'    => []
-        ];
-
-        foreach ($notes as $note) {
-            $view = new NotificationView();
-            $view->setNotification($note);
-            $em->persist($view);
-            $payload['notes'][] = $note->publicView();
-        }
-        $em->flush();
-
-        $response = $this->json($payload);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->buildJSONResponse($request, $notes);
     }
 
     /**
@@ -67,19 +52,7 @@ class NotificationController extends AbstractController
     public function listPending(EntityManagerInterface $em, Request $request)
     {
         $notes = $em->getRepository(Notification::class)->findPendingNotifications();
-
-        $payload = [
-            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
-            'notes'    => []
-        ];
-
-        foreach ($notes as $note) {
-            $payload['notes'][] = $note->publicView();
-        }
-
-        $response = $this->json($payload);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        return $response;
+        return $this->buildJSONResponse($request, $notes);
     }
 
 
@@ -291,7 +264,7 @@ class NotificationController extends AbstractController
 
     /**
      * @param FormInterface $form
-     * @param string        $title
+     * @param string $title
      * @return Response
      */
     private function renderEditForm(FormInterface $form, string $title = 'Edit notification'): Response
@@ -300,15 +273,15 @@ class NotificationController extends AbstractController
         return $this->render(
             'notification/new.html.twig',
             [
-                'form'      => $form->createView(),
-                'title'     => $title,
+                'form' => $form->createView(),
+                'title' => $title,
                 'templates' => $templates
             ]
         );
     }
 
     /**
-     * @param Notification           $new_note
+     * @param Notification $new_note
      * @param EntityManagerInterface $em
      */
     private function saveNote(Notification $new_note, EntityManagerInterface $em): void
@@ -319,7 +292,7 @@ class NotificationController extends AbstractController
 
     /**
      * @param Request $request
-     * @param string  $message
+     * @param string $message
      * @return RedirectResponse
      */
     protected function redirectToHomeOrList(Request $request, string $message): RedirectResponse
@@ -330,5 +303,58 @@ class NotificationController extends AbstractController
         } else {
             return $this->redirectWithFlash('notification_list', $message);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param $notes
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Exception
+     */
+    private function buildJSONResponse(Request $request, $notes): \Symfony\Component\HttpFoundation\JsonResponse
+    {
+        $payload = [
+            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
+            'notes' => []
+        ];
+
+        $notes = $this->filterNotifications($request, $notes);
+
+        foreach ($notes as $note) {
+            $payload['notes'][] = $note->publicView();
+        }
+
+        $response = $this->json($payload);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @param $notes
+     * @return array
+     */
+    private function filterNotifications(Request $request, $notes): array
+    {
+        // @todo move all this to repository
+        if ($app = $request->query->get('application')) {
+            $notes = array_filter($notes, function (Notification $note) use ($app) {
+                $normalized_name = strtolower($note->getApplication()->getName());
+                return $normalized_name === strtolower($app);
+            });
+        }
+
+        if ($type = $request->query->get('type')) {
+            $notes = array_filter($notes, function (Notification $note) use ($type) {
+                return $note->getType()->getName() === $type;
+            });
+        }
+
+        if ($priority = $request->query->get('priority')) {
+            $notes = array_filter($notes, function (Notification $note) use ($priority) {
+                return $note->getPriority()->getLevel() <= (integer)$priority;
+            });
+        }
+        return $notes;
     }
 }
