@@ -6,7 +6,7 @@ To add notices to your site, include *downtime-notices-client.js* client script 
 
 ```javascript
 options = {styles:true}
-BCLibDowntimeNotices({styles: true});
+BCLibDowntimeNotices(options);
 ``` 
 
 Options include:
