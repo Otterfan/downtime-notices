@@ -42,7 +42,10 @@ class NotificationController extends AbstractController
      */
     public function listActive(EntityManagerInterface $em, Request $request)
     {
-        $notes = $em->getRepository(Notification::class)->findActiveNotifications();
+        $constraints = [
+            'type' => $request->query->get('type')
+        ];
+        $notes = $em->getRepository(Notification::class)->findActiveNotifications($constraints);
         return $this->buildJSONResponse($request, $notes);
     }
 
@@ -51,7 +54,7 @@ class NotificationController extends AbstractController
      */
     public function listPending(EntityManagerInterface $em, Request $request)
     {
-        $notes = $em->getRepository(Notification::class)->findPendingNotifications();
+        $notes = $em->getRepository(Notification::class)->findPending();
         return $this->buildJSONResponse($request, $notes);
     }
 
