@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BestBet;
 use App\Form\BestBetType;
 use App\Repository\BestBetRepository;
+use App\Services\BestBetService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +32,7 @@ class BestBetController extends AbstractController
     /**
      * @Route("/best-bet/new", name="best_bet_create")
      */
-    public function new(Request $request)
+    public function new(Request $request, BestBetService $best_bet_client)
     {
         $bet = new BestBet();
 
@@ -40,7 +41,9 @@ class BestBetController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->processForm($form, 'created');
+            $redirect = $this->processForm($form, 'created');
+            $best_bet_client->add($bet);
+            return $redirect;
         }
 
         return $this->render('best_bet/new.html.twig', [
@@ -51,7 +54,7 @@ class BestBetController extends AbstractController
     /**
      * @Route("/best-bet/{id}", name="best_bet_edit", methods={"GET","POST"})
      */
-    public function edit(EntityManagerInterface $em, string $id, Request $request)
+    public function edit(EntityManagerInterface $em, string $id, Request $request, BestBetService $best_bet_client)
     {
         $bet = $em->find(BestBet::class, $id);
 
@@ -63,7 +66,9 @@ class BestBetController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->processForm($form, 'edited');
+            $redirect = $this->processForm($form, 'edited');
+            $best_bet_client->update($bet);
+            return $redirect;
         }
 
         return $this->render('best_bet/edit.html.twig', [
@@ -75,15 +80,17 @@ class BestBetController extends AbstractController
     /**
      * @Route("/best-bet/{id}", name="best_bet_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, BestBet $bet): RedirectResponse
+    public function delete(Request $request, BestBet $bet, BestBetService $best_bet_client): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$bet->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $bet->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             foreach ($bet->getTerms() as $term) {
                 $entityManager->remove($term);
             }
             $entityManager->remove($bet);
             $entityManager->flush();
+
+            $best_bet_client->delete($bet);
         }
 
         return $this->redirectToRoute('best_bet_list');
