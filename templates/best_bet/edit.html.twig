@@ -1,17 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Create a best bet
+    Edit best bet
 {% endblock %}
 
 {% block icon %}
     <i class="fas fa-search-dollar"></i>
 {% endblock %}
 
-
 {% block body %}
-    {{ include('best_bet/_form.html.twig', {'button_label': 'Create'}) }}
-
+    {{ include('best_bet/_form.html.twig', {'button_label': 'Update'}) }}
     <a href="{{ path('best_bet_list') }}" class="back-to-list">back to list</a>
 {% endblock %}
 

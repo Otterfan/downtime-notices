@@ -19,6 +19,18 @@ class BestBetRepository extends ServiceEntityRepository
         parent::__construct($registry, BestBet::class);
     }
 
+    public function findAllQuery()
+    {
+        $dql = /** @lang DQL */
+            <<< DQL
+SELECT b FROM App\Entity\BestBet b
+ORDER BY b.title ASC 
+DQL;
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        return $query;
+    }
+
     // /**
     //  * @return BestBet[] Returns an array of BestBet objects
     //  */
