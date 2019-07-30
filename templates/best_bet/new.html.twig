@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('best_bet/_form.html.twig', {'button_label': 'Create'}) }}
+
+    <a href="{{ path('template_index') }}" class="back-to-list">back to list</a>
+{% endblock %}
+
+{% block title %}
+    Create a Best Bet
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

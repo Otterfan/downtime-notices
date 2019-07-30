@@ -1,0 +1,34 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+<div class="row">
+    <div class="notices-form-entry">
+
+        {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+        {{ form_end(form, {'render_rest': false}) }}
+    </div>
+
+    <div class="notices-form-instruction">
+        <div class="instructions">
+            <p>This <strong>best bet</strong> will be added to search results that match one of the <em>terms</em>.
+            <p>The <em>title</em> is the clickable link that appears on the top of the best bet result.</p>
+            <p>The <em>link</em> is an optional direct link to the resource.</p>
+            <p>The <em>text</em> is the best bet content. Try to keep the text under 120 characters</p>
+            <p>You can use
+                <a href="https://help.github.com/en/articles/basic-writing-and-formatting-syntax">Markdown</a> to style your text, for example:
+            <ul>
+                <li><span class="markdown"><a href="https://www.bc.edu">[links](https://www.bc.edu)</a></span></li>
+                <li><span class="markdown"><strong>**bold text**</strong></span></li>
+                <li><span class="markdown"><em>italics</em></span></li>
+            </ul>
+            </p>
+            <p>
+                Best bets can have an optional <em>image</em>. Keep it small!
+            </p>
+
+        </div>
+    </div>
+</div>
