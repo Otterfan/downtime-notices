@@ -58,12 +58,12 @@ class BestBetService
         $this->add($bet);
     }
 
-    public function delete(BestBet $bet)
+    public function delete(string $bet_id)
     {
         $params = [
             'index' => 'bestbets',
             'type' => 'bestbet',
-            'id' => $bet->getId()
+            'id' => $bet_id
         ];
 
         $this->elastic->delete($params);

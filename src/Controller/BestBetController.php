@@ -83,6 +83,8 @@ class BestBetController extends AbstractController
     public function delete(Request $request, BestBet $bet, BestBetService $best_bet_client): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete' . $bet->getId(), $request->request->get('_token'))) {
+            $bet_id = $bet->getId();
+
             $entityManager = $this->getDoctrine()->getManager();
             foreach ($bet->getTerms() as $term) {
                 $entityManager->remove($term);
@@ -90,7 +92,7 @@ class BestBetController extends AbstractController
             $entityManager->remove($bet);
             $entityManager->flush();
 
-            $best_bet_client->delete($bet);
+            $best_bet_client->delete($bet_id);
         }
 
         return $this->redirectToRoute('best_bet_list');
