@@ -46,7 +46,7 @@ class BestBetService
             'body' => [
                 'title' => $bet->getTitle(),
                 'link' => $bet->getLink(),
-                'displayText' => $this->md->line($bet->getText()),
+                'displayText' => $this->md->text($bet->getText()),
                 'terms' => $terms
             ]
         ];
