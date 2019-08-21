@@ -33,8 +33,6 @@ const BCLibDowntimeNotices = function (options) {
     function buildRequest() {
         const request = new XMLHttpRequest();
 
-        console.log(options);
-
         request.open('GET', options.url, true);
         request.onload = processRequest;
 
@@ -48,7 +46,9 @@ const BCLibDowntimeNotices = function (options) {
     function processRequest() {
         if (request.status >= 200 && request.status < 400) {
             let data = JSON.parse(request.responseText);
-            options.callback(data);
+            if (data.notes && data.notes.length > 0) {
+                options.callback(data);
+            }
         }
     }
 
@@ -63,7 +63,6 @@ const BCLibDowntimeNotices = function (options) {
         document.body.insertBefore(note, document.body.childNodes[1]);
     }
 
-    // Sort notes by highest priority, then most recent.
     function compareNotes(a, b) {
         if (a.priority < b.priority)
             return -1;
