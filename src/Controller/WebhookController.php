@@ -21,6 +21,9 @@ class WebhookController extends AbstractController
      */
     public function listen(EntityManagerInterface $em, Request $req)
     {
+        // Disable for now.
+        return $this->sendResponse();
+
         $id = $req->get('monitorID', false);
         $alert_type = $req->get('alertType', false);
 
