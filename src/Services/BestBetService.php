@@ -41,7 +41,6 @@ class BestBetService
 
         $params = [
             'index' => 'bestbets',
-            'type' => 'bestbet',
             'id' => $bet->getId(),
             'body' => [
                 'title' => $bet->getTitle(),
