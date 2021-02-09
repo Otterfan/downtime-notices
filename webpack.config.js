@@ -62,7 +62,7 @@ Encore.reset();
 // directory where compiled assets will be stored
 Encore.setOutputPath('public/build/')
 // public path used by the web server to access the output path
-    .setPublicPath('/build')
+    .setPublicPath('/notices/build')
     // only needed for CDN's or sub-directory deploy
     .setManifestKeyPrefix('build/')
 
