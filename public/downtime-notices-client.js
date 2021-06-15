@@ -4,6 +4,7 @@ Options:
     * bool styles: true if you want to apply the built-in styles (default false)
     * string class: the class name to assign the notice div (default 'downtime-notification')
     * string url: the URL of the notifications API (default is production)
+    * string application: the name of the application to show (default is to show all public applications)
 */
 const BCLibDowntimeNotices = function (options) {
     const apiUrl = 'https://arc.bc.edu/notices/active';
@@ -27,13 +28,20 @@ const BCLibDowntimeNotices = function (options) {
         opts.callback = options.hasOwnProperty('callback') ? options.callback : display;
         opts.styles = options.hasOwnProperty('styles') ? options.styles : false;
         opts.class = options.hasOwnProperty('class') ? options.class : 'downtime-notification';
+        opts.application = options.hasOwnProperty('application') ? options.application : null
         return opts;
     }
 
     function buildRequest() {
         const request = new XMLHttpRequest();
 
-        request.open('GET', options.url, true);
+        let url = options.url + '?';
+
+        if (options.application) {
+            url += "application=" + encodeURIComponent(options.application);
+        }
+
+        request.open('GET', url, true);
         request.onload = processRequest;
 
         // Ignore errors for now.

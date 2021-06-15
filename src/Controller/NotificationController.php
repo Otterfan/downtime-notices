@@ -43,9 +43,22 @@ class NotificationController extends AbstractController
     public function listActive(EntityManagerInterface $em, Request $request)
     {
         $constraints = [
-            'type' => $request->query->get('type')
+            'type' => $request->query->get('type'),
+            'application' => $request->query->get('application')
         ];
         $notes = $em->getRepository(Notification::class)->findActiveNotifications($constraints);
+
+        // If the user has not requested a single application (e.g. there coming from the homepage, where
+        // multiple applications are covered), filter out any notices for applications that aren't intended
+        // to be shown on the homepage.
+        if (!$request->query->get('application')) {
+            $notes = array_filter($notes, function (Notification $note) {
+                if ($note->getApplication() && ! $note->getApplication()->getOnStatusPage()) {
+                    return false;
+                }
+                return true;
+            });
+        }
         return $this->buildJSONResponse($request, $notes);
     }
 
