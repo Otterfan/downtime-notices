@@ -46,7 +46,7 @@ class Application
     /**
      * @ORM\Column(type="boolean")
      */
-    private $on_status_page;
+    private $on_homepage;
 
     /**
      * @ORM\Column(type="text")
@@ -65,6 +65,7 @@ class Application
 
     public function __construct()
     {
+        $this->on_homepage = false;
         $this->notifications = new ArrayCollection();
     }
 
@@ -157,14 +158,14 @@ class Application
         return $this;
     }
 
-    public function getOnStatusPage(): ?bool
+    public function getOnHomepage(): ?bool
     {
-        return $this->on_status_page;
+        return $this->on_homepage;
     }
 
-    public function setOnStatusPage(bool $on_status_page): self
+    public function setOnHomepage(bool $on_homepage): self
     {
-        $this->on_status_page = $on_status_page;
+        $this->on_homepage = $on_homepage;
 
         return $this;
     }

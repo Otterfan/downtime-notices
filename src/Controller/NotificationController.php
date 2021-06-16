@@ -53,7 +53,7 @@ class NotificationController extends AbstractController
         // to be shown on the homepage.
         if (!$request->query->get('application')) {
             $notes = array_filter($notes, function (Notification $note) {
-                if ($note->getApplication() && ! $note->getApplication()->getOnStatusPage()) {
+                if ($note->getApplication() && ! $note->getApplication()->getOnHomepage()) {
                     return false;
                 }
                 return true;

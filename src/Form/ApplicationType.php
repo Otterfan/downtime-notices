@@ -20,16 +20,18 @@ class ApplicationType extends AbstractType
                 'uptime_robot_code',
                 TextType::class,
                 [
-                    'label'    => 'Uptime Robot code',
+                    'label' => 'Uptime Robot code',
                     'required' => false
                 ]
             )
             ->add(
-                'on_status_page',
+                'on_homepage',
                 CheckboxType::class,
                 [
-                    'label' => 'Show on public status page?',
-                    'attr'  => ['class' => 'show-on-public-status-page']
+                    'label' => 'Show on homepage?',
+                    'attr' => ['class' => 'show-on-homepage'],
+                    'required' => false
+
                 ]
             )
             ->add('public_name')
