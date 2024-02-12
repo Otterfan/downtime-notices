@@ -61,7 +61,6 @@ class BestBetService
     {
         $params = [
             'index' => 'bestbets',
-            'type' => 'bestbet',
             'id' => $bet_id
         ];
 
