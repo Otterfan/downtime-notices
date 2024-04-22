@@ -70,7 +70,7 @@ class HomeController extends AbstractController
             $apps_to_check[$app->getUptimeRobotCode()] = $app;
         }
 
-        $api_key = getenv('UPTIME_ROBOT_API_KEY');
+        $api_key = $_SERVER['UPTIME_ROBOT_API_KEY'];
 
         $ur_client = new Client();
         $monitors = $ur_client->fetch($api_key, array_keys($apps_to_check));
