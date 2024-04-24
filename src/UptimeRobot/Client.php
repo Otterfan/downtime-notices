@@ -2,8 +2,6 @@
 
 namespace App\UptimeRobot;
 
-use mysql_xdevapi\Exception;
-
 class Client
 {
     private $status_name_map = [
