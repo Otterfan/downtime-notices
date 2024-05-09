@@ -36,7 +36,8 @@ class BestBetService
     {
         $terms = [];
         foreach ($bet->getTerms() as $term) {
-            $terms[] = $term->getValue();
+            // Terms should be lowercase.
+            $terms[] = strtolower($term->getValue());
         }
 
         $params = [
