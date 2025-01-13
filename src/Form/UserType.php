@@ -19,7 +19,7 @@ class UserType extends AbstractType
             ->add('email')
             ->add('roles',
                 ChoiceType::class, [
-                    'choices' => ['Admin' => 'ROLE_ADMIN', 'User' => 'ROLE_USER'],
+                    'choices' => ['Admin' => 'ROLE_ADMIN', 'User' => 'ROLE_USER', 'Best Bets editor' => 'ROLE_BEST_BET', 'Notifications editor' => 'ROLE_NOTICE'],
                     'expanded' => true,
                     'multiple' => true
                 ]

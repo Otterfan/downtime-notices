@@ -34,10 +34,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }\
         - { path: ^/dashboard, roles: ROLE_USER }
-        - { path: ^/notification, roles: ROLE_USER }
+        - { path: ^/notification, roles: ROLE_NOTICE }
         - { path: ^/user, roles: ROLE_ADMIN }
         - { path: ^/template, roles: ROLE_ADMIN }
         - { path: ^/application, roles: ROLE_ADMIN }
+        - { path: ^/best-bet, roles: ROLE_BEST_BET }
 
 
 

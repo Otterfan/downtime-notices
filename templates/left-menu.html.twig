@@ -7,12 +7,21 @@
                     Dashboard <span class="sr-only">(current)</span>
                 </a>
             </li>
-            <li class="nav-item {% if app.request.attributes.get('_route') starts with 'notification' %}active{% endif %}">
-                <a class="nav-link" href="{{ path('notification_list') }}">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Notifications
+            {% if is_granted('ROLE_NOTICE') %}
+                <li class="nav-item {% if app.request.attributes.get('_route') starts with 'notification' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('notification_list') }}">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Notifications
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_BEST_BET') %}
+            <li class="nav-item {% if app.request.attributes.get('_route') starts with 'best-bet' %}active{% endif %}">
+                <a class="nav-link" href="{{ path('best_bet_list') }}">
+                    <i class="fas fa-search-dollar"></i> Best bets
                 </a>
             </li>
+            {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item {% if app.request.attributes.get('_route') starts with 'template' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('template_index') }}">
@@ -24,11 +33,6 @@
                     <a class="nav-link" href="{{ path('application_index') }}">
                         <i class="fas fa-server"></i>
                         Applications
-                    </a>
-                </li>
-                <li class="nav-item {% if app.request.attributes.get('_route') starts with 'best-bet' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('best_bet_list') }}">
-                        <i class="fas fa-search-dollar"></i> Best bets
                     </a>
                 </li>
                 <li class="nav-item {% if app.request.attributes.get('_route') starts with 'user' %}active{% endif %}">
