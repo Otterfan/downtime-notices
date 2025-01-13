@@ -59,6 +59,11 @@ class BestBet
     private ?string $source_identifier;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default":false})
+     */
+    private ?bool $needs_update;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\BestBetTerm", mappedBy="bestBet", cascade={"persist"})
      */
     private $terms;
@@ -137,6 +142,16 @@ class BestBet
         $this->link = $link;
 
         return $this;
+    }
+
+    public function getNeedsUpdate(): ?bool
+    {
+        return $this->needs_update;
+    }
+
+    public function setNeedsUpdate(?bool $needs_update): void
+    {
+        $this->needs_update = $needs_update;
     }
 
     public function getImage(): ?string

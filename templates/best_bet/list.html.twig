@@ -25,7 +25,7 @@ Best bets
         </thead>
         <tbody>
         {% for bet in betlist %}
-            <tr>
+            <tr{% if bet.needsUpdate %} class="needs-update"{% endif %}>
                 <td><a href="{{ path('best_bet_edit', {'id': bet.id}) }}">{{ bet.title }}</a></td>
                 <td>{{ bet.link |truncate(50) }}</td>
                 <td>

@@ -24,7 +24,7 @@ class BestBetRepository extends ServiceEntityRepository
         $dql = /** @lang DQL */
             <<< DQL
 SELECT b FROM App\Entity\BestBet b
-ORDER BY b.title ASC 
+ORDER BY b.needs_update DESC,b.title ASC 
 DQL;
 
         $query = $this->getEntityManager()->createQuery($dql);
