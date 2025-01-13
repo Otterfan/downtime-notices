@@ -155,7 +155,7 @@ class Notification
 
     private function now(): \DateTime
     {
-        return new \DateTime('now', new \DateTimeZone('America/New_York '));
+        return new \DateTime('now', new \DateTimeZone('America/New_York'));
     }
 
     public function getPoster(): ?User

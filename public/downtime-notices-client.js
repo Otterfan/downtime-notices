@@ -14,7 +14,6 @@ const BCLibDowntimeNotices = function (options) {
         'right: 0;\n' +
         'background: #fde073;\n' +
         'text-align: center;\n' +
-        'overflow: hidden;\n' +
         'padding: 1em 2em;\n' +
         'box-shadow: 0 0 5px black;';
     options = setOptions(options);

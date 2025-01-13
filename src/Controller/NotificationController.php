@@ -46,7 +46,7 @@ class NotificationController extends AbstractController
             'type' => $request->query->get('type'),
             'application' => $request->query->get('application')
         ];
-        $notes = $em->getRepository(Notification::class)->findActiveNotifications($constraints);
+	$notes = $em->getRepository(Notification::class)->findActiveNotifications($constraints);
 
         // If the user has not requested a single application (e.g. there coming from the homepage, where
         // multiple applications are covered), filter out any notices for applications that aren't intended
@@ -58,7 +58,7 @@ class NotificationController extends AbstractController
                 }
                 return true;
             });
-        }
+	}
         return $this->buildJSONResponse($request, $notes);
     }
 
@@ -329,10 +329,13 @@ class NotificationController extends AbstractController
      */
     private function buildJSONResponse(Request $request, $notes): \Symfony\Component\HttpFoundation\JsonResponse
     {
+	    $foo =  new \DateTime();
+	    $bar =  new \DateTimeZone("UTC");
+
         $payload = [
-            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York ')),
+            'datetime' => new \DateTime('now', new \DateTimeZone('America/New_York')),
             'notes' => []
-        ];
+	];
 
         $notes = $this->filterNotifications($request, $notes);
 
