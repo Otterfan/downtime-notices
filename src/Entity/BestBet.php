@@ -16,17 +16,17 @@ class BestBet
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private ?string $text;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="date")
@@ -36,22 +36,34 @@ class BestBet
     /**
      * @ORM\Column(type="date")
      */
-    private $updated;
+    private ?\DateTimeInterface $updated;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $link;
+    private ?string $link;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image;
+    private ?string $image;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=false, options={"default":"other"})
+     */
+    private string $source_type;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private ?string $source_identifier;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BestBetTerm", mappedBy="bestBet", cascade={"persist"})
      */
     private $terms;
+
+    const SOURCE_TYPES = ['azlist', 'faq', 'other'];
 
     public function __construct()
     {
@@ -140,6 +152,42 @@ class BestBet
     }
 
     /**
+     * @return string
+     */
+    public function getSourceType(): string
+    {
+        return $this->source_type;
+    }
+
+    /**
+     * @param string $source_type
+     */
+    public function setSourceType(string $source_type): void
+    {
+        if (!in_array($source_type, self::SOURCE_TYPES, true)) {
+            throw new \InvalidArgumentException("\$source_type must be one of '" . implode("', '", self::SOURCE_TYPES) . "' : $source_type given");
+        }
+        $this->source_type = $source_type;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getSourceIdentifier(): ?string
+    {
+        return $this->source_identifier;
+    }
+
+    /**
+     * @param ?string $source_identifier
+     */
+    public function setSourceIdentifier(?string $source_identifier): void
+    {
+        $this->source_identifier = $source_identifier;
+    }
+
+
+    /**
      * @return Collection|BestBetTerm[]
      */
     public function getTerms(): Collection
@@ -168,5 +216,15 @@ class BestBet
         }
 
         return $this;
+    }
+
+    public function sourceURL(): ?string
+    {
+        if ($this->source_type === 'azlist') {
+            return "https://bc.libapps.com/libguides/az.php?action=0&section=2&id={$this->source_identifier}";
+        } elseif ($this->source_type === 'faq') {
+            return "https://answers.bc.edu/faq/{$this->source_identifier}";
+        }
+        return null;
     }
 }
